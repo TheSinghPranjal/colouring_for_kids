@@ -1,0 +1,22 @@
+{
+  "id": "teddy_bear",
+  "title": "Teddy Bear",
+  "categoryId": "toys_imagination",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Teddy Bear",
+  "level": "explorer",
+  "regionCount": 13,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

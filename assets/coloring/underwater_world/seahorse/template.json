@@ -1,0 +1,22 @@
+{
+  "id": "seahorse",
+  "title": "Seahorse",
+  "categoryId": "underwater_world",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Seahorse",
+  "level": "explorer",
+  "regionCount": 9,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}
