@@ -7,8 +7,10 @@ import '../widgets/kid_dialogs.dart';
 import 'artwork_preview_screen.dart';
 import 'category_gallery_screen.dart';
 import 'coloring_studio_screen.dart';
+import 'home_screen.dart';
 import 'my_artwork_screen.dart';
 import 'parent_settings_screen.dart';
+import 'picture_hub_screen.dart';
 import 'sketch_selection_screen.dart';
 
 /// Every navigation in the app goes through here, so routes carry names
@@ -16,6 +18,8 @@ import 'sketch_selection_screen.dart';
 class AppRoutes {
   AppRoutes._();
 
+  static const home = 'home';
+  static const hub = 'hub';
   static const categories = 'categories';
   static const sketches = 'sketches';
   static const studio = 'studio';
@@ -27,6 +31,20 @@ class AppRoutes {
     settings: RouteSettings(name: name),
     builder: (_) => page,
   );
+
+  /// Leaves the splash screen for the title screen with a soft fade.
+  static void replaceWithHome(BuildContext context) => Navigator.pushReplacement(
+    context,
+    PageRouteBuilder<void>(
+      settings: const RouteSettings(name: home),
+      transitionDuration: const Duration(milliseconds: 500),
+      pageBuilder: (_, _, _) => const HomeScreen(),
+      transitionsBuilder: (_, animation, _, child) => FadeTransition(opacity: animation, child: child),
+    ),
+  );
+
+  static Future<void> hubPage(BuildContext context) =>
+      Navigator.push(context, _route(hub, const PictureHubScreen()));
 
   static Future<void> categoriesPage(BuildContext context) =>
       Navigator.push(context, _route(categories, const CategoryGalleryScreen()));
@@ -63,7 +81,7 @@ class AppRoutes {
   }
 
   /// Pops back to the closest route named [name], or replaces the stack
-  /// above home with a fresh one if it is not in the history.
+  /// above the title screen with a fresh one if it is not in the history.
   static void backTo(BuildContext context, String name, Widget Function() build) {
     var found = false;
     Navigator.popUntil(context, (r) {

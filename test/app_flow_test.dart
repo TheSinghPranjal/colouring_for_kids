@@ -8,6 +8,8 @@ import 'package:colouring_for_kids/engines/region_coloring/coloring_canvas.dart'
 import 'package:colouring_for_kids/models/drawing_tool.dart';
 import 'package:colouring_for_kids/screens/artwork_preview_screen.dart';
 import 'package:colouring_for_kids/screens/coloring_studio_screen.dart';
+import 'package:colouring_for_kids/screens/home_screen.dart';
+import 'package:colouring_for_kids/screens/splash_screen.dart';
 import 'package:colouring_for_kids/services/app_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -58,7 +60,12 @@ void main() {
     final gallery = FakeGallery();
     final services = await boot(tester, gallery);
 
-    // Home → Category Gallery → Flowers & Garden → Flower.
+    // Splash → Title → Picture hub → Category Gallery → Flowers & Garden → Flower.
+    expect(find.byType(HomeScreen), findsOneWidget, reason: 'splash hands over to the title screen');
+    expect(find.byType(SplashScreen), findsNothing);
+    expect(find.bySemanticsLabel(RegExp('^Keep Coloring')), findsNothing, reason: 'nothing to continue yet');
+    await tester.tap(find.bySemanticsLabel('Play'));
+    await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Start Coloring'));
     await tester.pumpAndSettle();
     expect(find.text('Pick a Picture'), findsOneWidget);
@@ -163,6 +170,9 @@ void main() {
     await tester.runAsync(() => relaunched.artworks.load());
     await tester.pumpWidget(ColoringApp(services: relaunched));
     await tester.pumpAndSettle();
+    expect(find.bySemanticsLabel('Keep Coloring Flower'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Play'));
+    await tester.pumpAndSettle();
     expect(find.text('Continue Coloring'), findsOneWidget);
     await tester.tap(find.bySemanticsLabel('Continue Flower'));
     await tester.pumpAndSettle();
@@ -181,6 +191,8 @@ void main() {
 
   testWidgets('every gallery card opens its own template', (tester) async {
     await boot(tester, FakeGallery());
+    await tester.tap(find.bySemanticsLabel('Play'));
+    await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Start Coloring'));
     await tester.pumpAndSettle();
     for (final category in ColoringCatalog.categories) {
@@ -203,6 +215,54 @@ void main() {
       }
       await tester.tap(find.bySemanticsLabel('Back'));
       await tester.pumpAndSettle();
+    }
+  });
+
+  testWidgets('title screen: Keep Coloring resumes, hub Back returns, small phone fits', (tester) async {
+    final services = await boot(tester, FakeGallery());
+    // Hub back button returns to the title screen.
+    await tester.tap(find.bySemanticsLabel('Play'));
+    await tester.pumpAndSettle();
+    expect(find.text('Pick a Picture'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Back'));
+    await tester.pumpAndSettle();
+    expect(find.byType(HomeScreen), findsOneWidget);
+    expect(find.bySemanticsLabel('My Artwork'), findsOneWidget);
+    expect(find.bySemanticsLabel('Grown-ups settings'), findsOneWidget);
+
+    // Start a picture, come back, and resume it from the title screen.
+    await tester.tap(find.bySemanticsLabel('Play'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Start Coloring'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 5 pictures').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Flower'));
+    await tester.pumpAndSettle();
+    await tester.tap(swatch('Red'));
+    await tester.pump();
+    await tester.tapAt(onCanvas(tester, petal1));
+    await tester.pumpAndSettle();
+    Navigator.of(tester.element(find.byType(ColoringStudioScreen))).popUntil((r) => r.isFirst);
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Keep Coloring Flower'));
+    await tester.pumpAndSettle();
+    final studio = tester.widget<ColoringStudioScreen>(find.byType(ColoringStudioScreen));
+    expect(studio.artworkId, services.artworks.all.single.id);
+
+    // Splash and title lay out on a small phone and a landscape tablet.
+    for (final size in const [Size(320, 568), Size(1366, 1024)]) {
+      await tester.pumpWidget(const SizedBox());
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+      await tester.pumpWidget(ColoringApp(services: services));
+      await tester.pump();
+      expect(find.byType(SplashScreen), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'splash at $size');
+      await tester.pumpAndSettle();
+      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'title at $size');
+      expect(find.bySemanticsLabel('Play'), findsOneWidget);
     }
   });
 

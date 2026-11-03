@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart';
 import 'services/app_scope.dart';
 import 'theme/app_theme.dart';
 
@@ -44,7 +44,7 @@ class _ColoringAppState extends State<ColoringApp> with WidgetsBindingObserver {
         title: 'Color Sprout',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.build(),
-        home: const HomeScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

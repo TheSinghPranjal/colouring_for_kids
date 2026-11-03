@@ -4,14 +4,17 @@ import '../data/coloring_catalog.dart';
 import '../services/app_scope.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
+import '../widgets/app_logo.dart';
 import '../widgets/artwork_view.dart';
 import '../widgets/gallery_cards.dart';
 import '../widgets/kid_buttons.dart';
 import '../widgets/mascot.dart';
 import 'routes.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+/// The picture hub behind the title screen's Play button: Start Coloring,
+/// My Artwork, pictures in progress and every category.
+class PictureHubScreen extends StatelessWidget {
+  const PictureHubScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -148,86 +151,29 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 8, 12, 12),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.topRight,
-            child: Semantics(
-              button: true,
-              label: 'Grown-ups settings',
-              excludeSemantics: true,
-              child: Opacity(
-                opacity: 0.75,
-                child: TextButton.icon(
-                  onPressed: () => AppRoutes.parentPage(context),
-                  icon: const Icon(Icons.lock_rounded, size: 18, color: AppColors.inkSoft),
-                  label: Text('Grown-ups', style: AppTextStyles.caption),
-                ),
-              ),
+            alignment: Alignment.topLeft,
+            child: RoundIconButton(
+              icon: Icons.arrow_back_rounded,
+              tooltip: 'Back',
+              onTap: () => Navigator.maybePop(context),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 36),
+            padding: const EdgeInsets.only(top: 40),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Mascot(size: 104, animate: animate),
+                Mascot(size: 88, animate: animate),
                 const SizedBox(width: 12),
-                const Flexible(child: AppLogo()),
+                const Flexible(child: AppLogo(size: 38)),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// "Color Sprout" in playful multi-coloured letters.
-class AppLogo extends StatelessWidget {
-  const AppLogo({super.key, this.size = 44});
-
-  final double size;
-
-  static const _colors = [
-    Color(0xFFF2584A),
-    Color(0xFFFB8C00),
-    Color(0xFFF5B800),
-    Color(0xFF2FB58A),
-    Color(0xFF3FA9F5),
-    Color(0xFF7C64E8),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    var i = 0;
-    Text word(String w) => Text.rich(
-      TextSpan(
-        children: [
-          for (final ch in w.split(''))
-            TextSpan(
-              text: ch,
-              style: AppTextStyles.display.copyWith(
-                fontSize: size,
-                color: _colors[i++ % _colors.length],
-                shadows: const [Shadow(color: Colors.white, offset: Offset(0, 3))],
-              ),
-            ),
-        ],
-      ),
-    );
-    return Semantics(
-      header: true,
-      label: 'Color Sprout',
-      excludeSemantics: true,
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        alignment: Alignment.centerLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [word('Color'), word('Sprout')],
-        ),
       ),
     );
   }
