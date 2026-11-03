@@ -2,4 +2,5 @@
 <resources>
     <!-- Matches the top of the in-app splash sky (PlayfulBackdrop.skyTop). -->
     <color name="splash_sky">#FFBFE6FF</color>
+	<color name="ic_launcher_background">#000000</color>
 </resources>
