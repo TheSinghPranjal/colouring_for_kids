@@ -32,6 +32,20 @@ class FillAction extends ArtworkAction {
   void revert(ColoringArtwork artwork) => _set(artwork, regionId, before);
 }
 
+/// Colours the paper behind the line art (drag a swatch onto empty canvas).
+class BackgroundFillAction extends ArtworkAction {
+  const BackgroundFillAction(this.before, this.after);
+
+  final Color? before;
+  final Color? after;
+
+  @override
+  void apply(ColoringArtwork artwork) => artwork.backgroundColor = after;
+
+  @override
+  void revert(ColoringArtwork artwork) => artwork.backgroundColor = before;
+}
+
 /// Adds a brush or eraser stroke. Eraser strokes are ordinary entries in the
 /// stroke list, so erasing is partial, non-destructive and undoable.
 class StrokeAction extends ArtworkAction {
@@ -80,9 +94,13 @@ class ClearDrawingAction extends ArtworkAction {
 
 /// Returns the picture to a blank template (undoable, as a safety net).
 class ResetAction extends ArtworkAction {
-  ResetAction(ColoringArtwork artwork) : _fills = Map.of(artwork.fills), _clear = ClearDrawingAction(artwork);
+  ResetAction(ColoringArtwork artwork)
+    : _fills = Map.of(artwork.fills),
+      _background = artwork.backgroundColor,
+      _clear = ClearDrawingAction(artwork);
 
   final Map<String, Color> _fills;
+  final Color? _background;
   final ClearDrawingAction _clear;
 
   @override
@@ -91,6 +109,7 @@ class ResetAction extends ArtworkAction {
   @override
   void apply(ColoringArtwork artwork) {
     artwork.fills.clear();
+    artwork.backgroundColor = null;
     _clear.apply(artwork);
   }
 
@@ -99,6 +118,7 @@ class ResetAction extends ArtworkAction {
     artwork.fills
       ..clear()
       ..addAll(_fills);
+    artwork.backgroundColor = _background;
     _clear.revert(artwork);
   }
 }

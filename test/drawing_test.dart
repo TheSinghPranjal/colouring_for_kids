@@ -236,6 +236,20 @@ void main() {
       expect(c.history.undoDepth, 10);
     });
 
+    test('background fill is undoable and cleared by reset', () {
+      final c = newController();
+      expect(c.fillBackground(blue), isTrue);
+      expect(c.artwork.backgroundColor, blue);
+      expect(c.fillBackground(blue), isFalse, reason: 'same colour is a no-op');
+      c.undo();
+      expect(c.artwork.backgroundColor, isNull);
+      c.redo();
+      expect(c.artwork.backgroundColor, blue);
+      c.resetPicture();
+      expect(c.artwork.backgroundColor, isNull);
+      expect(c.artwork.isEmpty, isTrue);
+    });
+
     test('stickers move and are removed when dragged off the picture', () {
       final c = newController();
       final s = c.addSticker(const Offset(300, 300));

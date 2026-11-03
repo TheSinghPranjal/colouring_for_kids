@@ -148,6 +148,16 @@ class ColoringController extends ChangeNotifier {
     return true;
   }
 
+  /// Paints the paper behind the line art. Returns false if the colour is unchanged.
+  bool fillBackground(Color color) {
+    final before = _artwork.backgroundColor;
+    if (before == color) return false;
+    history.perform(_artwork, BackgroundFillAction(before, color));
+    _lastRipple = null;
+    _contentChanged();
+    return true;
+  }
+
   // ---------------------------------------------------------------- drawing
 
   void beginStroke(Offset p) {

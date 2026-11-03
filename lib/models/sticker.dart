@@ -1,5 +1,12 @@
 import 'dart:ui';
 
+/// Payload when dragging a sticker from the tray onto the picture.
+class StickerDragData {
+  const StickerDragData(this.kind);
+
+  final StickerKind kind;
+}
+
 enum StickerKind {
   star('Star'),
   heart('Heart'),

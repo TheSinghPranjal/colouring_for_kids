@@ -218,6 +218,11 @@ class _ColoringStudioScreenState extends State<ColoringStudioScreen> {
 
   double get _swatch => _little ? 56 : 48;
 
+  /// Fixed height so Fill / Draw / Stickers tool rows do not resize the canvas.
+  static const _toolPanelHeight = 140.0;
+
+  static const _modeBarHeight = 58.0;
+
   Widget _tallLayout(ColoringController c, BoxConstraints box) {
     final small = box.maxHeight < 640;
     return Column(
@@ -225,11 +230,16 @@ class _ColoringStudioScreenState extends State<ColoringStudioScreen> {
         _topBar(c, box.maxWidth),
         Expanded(child: _canvas(c)),
         const SizedBox(height: 6),
-        _modeSwitch(c, compact: small),
-        SizedBox(height: small ? 2 : 6),
-        ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 84),
-          child: Center(child: _toolRow(c)),
+        SizedBox(
+          height: _modeBarHeight,
+          child: Center(child: _modeSwitch(c, compact: small)),
+        ),
+        const SizedBox(height: 6),
+        SizedBox(
+          height: _toolPanelHeight,
+          child: ClipRect(
+            child: Align(alignment: Alignment.center, child: _toolRow(c)),
+          ),
         ),
         _palette(c, Axis.horizontal),
         const SizedBox(height: 4),
@@ -247,11 +257,16 @@ class _ColoringStudioScreenState extends State<ColoringStudioScreen> {
             children: [
               _topBar(c, 360),
               const SizedBox(height: 8),
-              _modeSwitch(c),
+              SizedBox(
+                height: _modeBarHeight,
+                child: Center(child: _modeSwitch(c)),
+              ),
               const SizedBox(height: 8),
-              ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 84),
-                child: Center(child: _toolRow(c)),
+              SizedBox(
+                height: _toolPanelHeight,
+                child: ClipRect(
+                  child: Align(alignment: Alignment.center, child: _toolRow(c)),
+                ),
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -360,6 +375,10 @@ class _ColoringStudioScreenState extends State<ColoringStudioScreen> {
             reducedMotion: _s.settings.reducedMotion,
             hintsEnabled: _s.settings.hints,
             onFilled: _filled,
+            onBackgroundFilled: () {
+              _s.sound.play(Sfx.fill);
+              _s.sound.haptic();
+            },
             onInvalidDrop: (offset, color) => _paletteKey.currentState?.animateReturn(offset, color),
             onStrokeStarted: () => _s.sound.play(Sfx.brush),
             onStickerPlaced: () => _s.sound.play(Sfx.pop),
@@ -427,7 +446,12 @@ class _ColoringStudioScreenState extends State<ColoringStudioScreen> {
               if (!_little) ...[
                 const SizedBox(width: 10),
                 Flexible(
-                  child: Text('Drag a color onto the picture, or tap a part!', style: AppTextStyles.caption),
+                  child: Text(
+                    'Drag a color onto a part or the background!',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.caption,
+                  ),
                 ),
               ],
             ],

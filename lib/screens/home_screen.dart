@@ -6,14 +6,13 @@ import '../data/coloring_catalog.dart';
 import '../services/app_scope.dart';
 import '../theme/app_text_styles.dart';
 import '../widgets/kid_buttons.dart';
+import '../widgets/studio_background.dart';
 import 'routes.dart';
 
 /// Title screen: studio background (logo baked into the art), Grown-ups chip,
 /// and three glossy menu pills over the open floor.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  static const _bgAsset = 'assets/images/home_studio_bg.jpg';
 
   /// Hot pink Play button from the reference mock.
   static const _playPink = Color(0xFFFF4D9A);
@@ -39,18 +38,8 @@ class HomeScreen extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               // Full-bleed studio art (character, easel, and Color Sprout title).
-              Positioned.fill(
-                child: Semantics(
-                  header: true,
-                  label: 'Color Sprout',
-                  image: true,
-                  child: Image.asset(
-                    _bgAsset,
-                    fit: BoxFit.cover,
-                    alignment: const Alignment(0, -0.15),
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
+              const Positioned.fill(
+                child: StudioBackgroundImage(semanticsLabel: 'Color Sprout'),
               ),
               SafeArea(
                 child: Stack(
@@ -59,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(28, 0, 28, 28),
+                        padding: StudioBackground.overlayPadding,
                         child: _MenuButtons(
                           animate: animate,
                           onPlay: () => AppRoutes.hubPage(context),
@@ -80,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 14, 0),
+                        padding: EdgeInsets.fromLTRB(0, 10, StudioBackground.overlayHorizontal, 0),
                         child: _GrownUpsChip(onTap: () => AppRoutes.parentPage(context)),
                       ),
                     ),
@@ -160,7 +149,7 @@ class _MenuButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 340),
+      constraints: const BoxConstraints(maxWidth: StudioBackground.menuMaxWidth),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

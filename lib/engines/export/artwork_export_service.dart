@@ -53,6 +53,7 @@ class ArtworkExportService {
       fills: artwork.fills,
       strokes: artwork.strokes,
       stickers: artwork.stickers,
+      background: artwork.backgroundColor ?? const ui.Color(0xFFFFFFFF),
     );
     renderer.dispose();
     final picture = recorder.endRecording();

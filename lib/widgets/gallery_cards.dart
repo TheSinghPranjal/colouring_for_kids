@@ -44,20 +44,19 @@ class CategoryCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: AppTextStyles.label.copyWith(fontSize: 17),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.image_rounded, size: 16, color: AppColors.inkSoft),
-                  const SizedBox(width: 4),
-                  Flexible(
-                    child: Text(
-                      '$count pictures',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.caption,
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 4),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.85),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: Text(
+                  '$count pictures',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.caption.copyWith(fontSize: 12, color: AppColors.inkSoft),
+                ),
               ),
             ],
           ),

@@ -59,8 +59,6 @@ void main() {
     await tester.pumpWidget(RepaintBoundary(child: ColoringApp(services: services)));
     await shot('1_home');
     await tester.tap(find.bySemanticsLabel('Play'));
-    await shot('1b_hub');
-    await tester.tap(find.bySemanticsLabel('Start Coloring'));
     await shot('2_categories');
     await tester.tap(find.bySemanticsLabel('Flowers & Garden, 5 pictures').first);
     await shot('3_sketches');

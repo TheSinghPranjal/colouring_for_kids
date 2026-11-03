@@ -15,6 +15,7 @@ class ColoringArtwork {
     Map<String, Color>? fills,
     List<BrushStroke>? strokes,
     List<PlacedSticker>? stickers,
+    this.backgroundColor,
     DateTime? createdAt,
     DateTime? updatedAt,
     this.lastExportedAt,
@@ -33,13 +34,16 @@ class ColoringArtwork {
   final Map<String, Color> fills;
   final List<BrushStroke> strokes;
   final List<PlacedSticker> stickers;
+
+  /// Canvas paper colour behind the line art. Null means plain white.
+  Color? backgroundColor;
   final DateTime createdAt;
   DateTime updatedAt;
   DateTime? lastExportedAt;
   String? lastExportPath;
   StudioPrefs studio;
 
-  bool get isEmpty => fills.isEmpty && strokes.isEmpty && stickers.isEmpty;
+  bool get isEmpty => fills.isEmpty && strokes.isEmpty && stickers.isEmpty && backgroundColor == null;
 
   int get nextStrokeId => strokes.fold(0, (m, s) => s.id > m ? s.id : m) + 1;
 
@@ -52,6 +56,7 @@ class ColoringArtwork {
     'fills': {for (final e in fills.entries) e.key: e.value.toARGB32()},
     'strokes': [for (final s in strokes) s.toJson()],
     'stickers': [for (final s in stickers) s.toJson()],
+    if (backgroundColor != null) 'backgroundColor': backgroundColor!.toARGB32(),
     'createdAt': createdAt.toIso8601String(),
     'updatedAt': updatedAt.toIso8601String(),
     'lastExportedAt': lastExportedAt?.toIso8601String(),
@@ -82,6 +87,7 @@ class ColoringArtwork {
       stickers: [
         for (final s in (json['stickers'] as List?) ?? const []) ?PlacedSticker.fromJson((s as Map).cast()),
       ],
+      backgroundColor: json['backgroundColor'] is num ? Color((json['backgroundColor'] as num).toInt()) : null,
       createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),
       updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? ''),
       lastExportedAt: DateTime.tryParse(json['lastExportedAt'] as String? ?? ''),

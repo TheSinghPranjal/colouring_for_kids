@@ -74,7 +74,7 @@ class _ArtworkPainter extends CustomPainter {
       fills: fills,
       strokes: artwork?.strokes ?? const [],
       stickers: artwork?.stickers ?? const [],
-      background: null,
+      background: demo ? null : artwork?.backgroundColor,
     );
     renderer.dispose();
   }

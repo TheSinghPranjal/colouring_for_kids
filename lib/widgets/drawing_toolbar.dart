@@ -436,28 +436,10 @@ class StickerTray extends StatelessWidget {
       child: Row(
         children: [
           for (final k in StickerKind.values) ...[
-            Semantics(
-              button: true,
+            _DraggableSticker(
+              kind: k,
               selected: k == kind,
-              label: '${k.label} sticker',
-              excludeSemantics: true,
-              child: Squishy(
-                onTap: () => onKind(k),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: k == kind ? AppColors.butter : AppColors.card,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: k == kind ? AppColors.ink : AppColors.shadow,
-                      width: k == kind ? 3 : 1.5,
-                    ),
-                  ),
-                  child: CustomPaint(painter: _StickerIconPainter(k)),
-                ),
-              ),
+              onSelected: () => onKind(k),
             ),
             const SizedBox(width: 8),
           ],
@@ -465,11 +447,67 @@ class StickerTray extends StatelessWidget {
           RoundIconButton(
             icon: Icons.cleaning_services_rounded,
             tooltip: 'Clear drawing',
-            caption: 'Clear',
             size: 46,
             onTap: canClear ? onClear : null,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Drag a sticker onto the picture (vertical drag so the tray still scrolls).
+class _DraggableSticker extends StatelessWidget {
+  const _DraggableSticker({required this.kind, required this.selected, required this.onSelected});
+
+  final StickerKind kind;
+  final bool selected;
+  final VoidCallback onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final tile = AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      width: 56,
+      height: 56,
+      decoration: BoxDecoration(
+        color: selected ? AppColors.butter : AppColors.card,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: selected ? AppColors.ink : AppColors.shadow,
+          width: selected ? 3 : 1.5,
+        ),
+      ),
+      child: CustomPaint(painter: _StickerIconPainter(kind)),
+    );
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: '${kind.label} sticker',
+      excludeSemantics: true,
+      child: LongPressDraggable<StickerDragData>(
+        data: StickerDragData(kind),
+        dragAnchorStrategy: pointerDragAnchorStrategy,
+        rootOverlay: true,
+        hapticFeedbackOnStart: true,
+        delay: const Duration(milliseconds: 180),
+        feedback: Material(
+          color: Colors.transparent,
+          child: Transform.scale(
+            scale: 1.2,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: const [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: Offset(0, 4))],
+              ),
+              child: SizedBox(width: 56, height: 56, child: CustomPaint(painter: _StickerIconPainter(kind))),
+            ),
+          ),
+        ),
+        childWhenDragging: Opacity(opacity: 0.35, child: tile),
+        onDragStarted: onSelected,
+        child: GestureDetector(onTap: onSelected, behavior: HitTestBehavior.opaque, child: tile),
       ),
     );
   }

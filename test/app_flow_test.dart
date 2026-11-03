@@ -60,13 +60,11 @@ void main() {
     final gallery = FakeGallery();
     final services = await boot(tester, gallery);
 
-    // Splash → Title → Picture hub → Category Gallery → Flowers & Garden → Flower.
+    // Splash → Title → Picture hub → Flowers & Garden → Flower.
     expect(find.byType(HomeScreen), findsOneWidget, reason: 'splash hands over to the title screen');
     expect(find.byType(SplashScreen), findsNothing);
     expect(find.bySemanticsLabel(RegExp('^Keep Coloring')), findsNothing, reason: 'nothing to continue yet');
     await tester.tap(find.bySemanticsLabel('Play'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.bySemanticsLabel('Start Coloring'));
     await tester.pumpAndSettle();
     expect(find.text('Pick a Picture'), findsOneWidget);
     for (final c in ColoringCatalog.categories) {
@@ -108,15 +106,27 @@ void main() {
     await tester.pumpAndSettle();
     expect(artwork.fills, {'petal_1': red, 'petal_2': blue});
 
-    // A drop outside every region changes nothing.
-    final miss = await tester.startGesture(tester.getCenter(swatch('Green')));
+    // A drop on empty paper paints the canvas background (not a petal).
+    final paper = await tester.startGesture(tester.getCenter(swatch('Green')));
+    await paper.moveBy(const Offset(0, -40));
+    await tester.pump();
+    await paper.moveTo(onCanvas(tester, const Offset(60, 60)));
+    await tester.pump();
+    await paper.up();
+    await tester.pumpAndSettle();
+    expect(artwork.fills, {'petal_1': red, 'petal_2': blue});
+    expect(artwork.backgroundColor, const Color(0xFF43A047));
+
+    // A drop completely off the picture still changes nothing and returns the swatch.
+    final miss = await tester.startGesture(tester.getCenter(swatch('Yellow')));
     await miss.moveBy(const Offset(0, -40));
     await tester.pump();
-    await miss.moveTo(onCanvas(tester, const Offset(60, 60)));
+    await miss.moveTo(onCanvas(tester, const Offset(-80, -80)));
     await tester.pump();
     await miss.up();
     await tester.pumpAndSettle();
     expect(artwork.fills, {'petal_1': red, 'petal_2': blue});
+    expect(artwork.backgroundColor, const Color(0xFF43A047));
 
     // 3. Blue pencil mark across the flower (never fills). Dragging green
     // above selected it, so pick blue again.
@@ -144,6 +154,15 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Undo'));
     await tester.pumpAndSettle();
     expect(artwork.strokes.map((s) => s.tool), [DrawingTool.pencil]);
+
+    // 5b. Stickers: tap the picture on a filled petal (semantics must not block).
+    await tester.tap(find.bySemanticsLabel('Stickers mode'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Heart sticker'));
+    await tester.pump();
+    await tester.tapAt(onCanvas(tester, petal1));
+    await tester.pumpAndSettle();
+    expect(artwork.stickers, hasLength(1));
 
     // 6. Save as PNG.
     await tester.runAsync(() async {
@@ -193,8 +212,6 @@ void main() {
     await boot(tester, FakeGallery());
     await tester.tap(find.bySemanticsLabel('Play'));
     await tester.pumpAndSettle();
-    await tester.tap(find.bySemanticsLabel('Start Coloring'));
-    await tester.pumpAndSettle();
     for (final category in ColoringCatalog.categories) {
       final card = find.bySemanticsLabel('${category.title}, 5 pictures');
       await tester.scrollUntilVisible(card, 150, scrollable: find.byType(Scrollable).first);
@@ -232,8 +249,6 @@ void main() {
 
     // Start a picture, come back, and resume it from the title screen.
     await tester.tap(find.bySemanticsLabel('Play'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.bySemanticsLabel('Start Coloring'));
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Flowers & Garden, 5 pictures').first);
     await tester.pumpAndSettle();

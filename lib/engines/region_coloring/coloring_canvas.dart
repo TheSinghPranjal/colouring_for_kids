@@ -33,6 +33,7 @@ class ColoringCanvas extends StatefulWidget {
     this.reducedMotion = false,
     this.hintsEnabled = true,
     this.onFilled,
+    this.onBackgroundFilled,
     this.onInvalidDrop,
     this.onStrokeStarted,
     this.onStickerPlaced,
@@ -44,7 +45,10 @@ class ColoringCanvas extends StatefulWidget {
   final bool hintsEnabled;
   final void Function(ColoringRegion region)? onFilled;
 
-  /// A swatch was dropped somewhere that is not a fillable region.
+  /// Empty paper inside the picture was painted (canvas background).
+  final VoidCallback? onBackgroundFilled;
+
+  /// A swatch was dropped somewhere that is not on the picture at all.
   final void Function(Offset globalPosition, Color color)? onInvalidDrop;
   final VoidCallback? onStrokeStarted;
   final VoidCallback? onStickerPlaced;
@@ -73,6 +77,7 @@ class _ColoringCanvasState extends State<ColoringCanvas> with TickerProviderStat
   CanvasTransform? _transform;
   ColoringRegion? _hover;
   Color? _hoverColor;
+  bool _hoverBackground = false;
   ColoringRegion? _hint;
   Timer? _idle;
   int _lastRippleSerial = 0;
@@ -177,28 +182,58 @@ class _ColoringCanvasState extends State<ColoringCanvas> with TickerProviderStat
   void _dragMoved(DragTargetDetails<SwatchDragData> d) {
     final p = _templateFromGlobal(d.offset);
     final region = p == null ? null : _c.regionAt(p, tolerance: _tolerance);
-    if (region != _hover || _hoverColor != d.data.color) {
+    final onPaper = p != null && (_transform?.containsTemplatePoint(p) ?? false);
+    final bg = region == null && onPaper;
+    if (region != _hover || _hoverColor != d.data.color || bg != _hoverBackground) {
       setState(() {
         _hover = region;
         _hoverColor = d.data.color;
+        _hoverBackground = bg;
       });
     }
   }
 
   void _dragLeft() {
-    if (_hover != null) setState(() => _hover = null);
+    if (_hover != null || _hoverBackground) {
+      setState(() {
+        _hover = null;
+        _hoverBackground = false;
+      });
+    }
   }
 
   void _dropped(DragTargetDetails<SwatchDragData> d) {
     _interacted();
-    setState(() => _hover = null);
+    setState(() {
+      _hover = null;
+      _hoverBackground = false;
+    });
     final p = _templateFromGlobal(d.offset);
-    final region = p == null ? null : _c.fillAt(p, color: d.data.color, tolerance: _tolerance);
-    if (region == null) {
+    if (p == null) {
       widget.onInvalidDrop?.call(d.offset, d.data.color);
-    } else {
-      widget.onFilled?.call(region);
+      return;
     }
+    final region = _c.fillAt(p, color: d.data.color, tolerance: _tolerance);
+    if (region != null) {
+      widget.onFilled?.call(region);
+      return;
+    }
+    // Empty paper inside the picture → paint the canvas background.
+    if (_transform?.containsTemplatePoint(p) ?? false) {
+      if (_c.fillBackground(d.data.color)) widget.onBackgroundFilled?.call();
+      return;
+    }
+    widget.onInvalidDrop?.call(d.offset, d.data.color);
+  }
+
+  void _stickerDropped(DragTargetDetails<StickerDragData> d) {
+    _interacted();
+    final p = _templateFromGlobal(d.offset);
+    final t = _transform;
+    if (p == null || t == null || !t.containsTemplatePoint(p)) return;
+    _c.setStickerKind(d.data.kind);
+    _c.addSticker(p, kind: d.data.kind);
+    widget.onStickerPlaced?.call();
   }
 
   // ------------------------------------------------------------- pointers
@@ -231,7 +266,8 @@ class _ColoringCanvasState extends State<ColoringCanvas> with TickerProviderStat
     if (e.pointer != _pointer) return;
     final t = _transform;
     if (t == null) return;
-    if (!_moved && (e.localPosition - _downLocal!).distance > 10) _moved = true;
+    final slop = _c.mode == StudioMode.sticker ? 22.0 : 10.0;
+    if (!_moved && (e.localPosition - _downLocal!).distance > slop) _moved = true;
     final p = t.toTemplate(e.localPosition);
     switch (_c.mode) {
       case StudioMode.draw:
@@ -263,7 +299,11 @@ class _ColoringCanvasState extends State<ColoringCanvas> with TickerProviderStat
       case StudioMode.fill:
         if (!_moved) {
           final region = _c.fillAt(p, tolerance: _tolerance);
-          if (region != null) widget.onFilled?.call(region);
+          if (region != null) {
+            widget.onFilled?.call(region);
+          } else if (t.containsTemplatePoint(p) && _c.fillBackground(_c.selectedColor)) {
+            widget.onBackgroundFilled?.call();
+          }
         }
     }
   }
@@ -284,23 +324,18 @@ class _ColoringCanvasState extends State<ColoringCanvas> with TickerProviderStat
       builder: (context, constraints) {
         final size = constraints.biggest;
         _transform = CanvasTransform.fit(size, _c.template.viewBox, padding: 10);
-        return DragTarget<SwatchDragData>(
-          onWillAcceptWithDetails: (_) => true,
-          onMove: _dragMoved,
-          onLeave: (_) => _dragLeft(),
-          onAcceptWithDetails: _dropped,
-          builder: (context, candidates, rejected) => Listener(
-            behavior: HitTestBehavior.opaque,
-            onPointerDown: _down,
-            onPointerMove: _move,
-            onPointerUp: _up,
-            onPointerCancel: _cancel,
-            child: Semantics(
-              label: 'Coloring picture: ${_c.template.title}',
-              child: CustomPaint(
-                key: _paintKey,
-                size: size,
-                isComplex: true,
+        final canvas = Listener(
+          behavior: HitTestBehavior.opaque,
+          onPointerDown: _down,
+          onPointerMove: _move,
+          onPointerUp: _up,
+          onPointerCancel: _cancel,
+          child: Semantics(
+            label: 'Coloring picture: ${_c.template.title}',
+            child: CustomPaint(
+              key: _paintKey,
+              size: size,
+              isComplex: true,
                 painter: _CanvasPainter(
                   controller: _c,
                   renderer: _renderer,
@@ -309,13 +344,33 @@ class _ColoringCanvasState extends State<ColoringCanvas> with TickerProviderStat
                   pulse: _pulse,
                   hover: _hover,
                   hoverColor: _hoverColor,
+                  hoverBackground: _hoverBackground,
                   hint: _hint,
                   onSemanticTap: (region) {
-                    if (_c.fillRegion(region.id, _c.selectedColor)) widget.onFilled?.call(region);
+                    switch (_c.mode) {
+                      case StudioMode.fill:
+                        if (_c.fillRegion(region.id, _c.selectedColor)) widget.onFilled?.call(region);
+                      case StudioMode.sticker:
+                        final center = region.bounds.center;
+                        _c.addSticker(center);
+                        widget.onStickerPlaced?.call();
+                      case StudioMode.draw:
+                        break;
+                    }
                   },
                 ),
-              ),
             ),
+          ),
+        );
+        return DragTarget<StickerDragData>(
+          onWillAcceptWithDetails: (_) => true,
+          onAcceptWithDetails: _stickerDropped,
+          builder: (context, _, _) => DragTarget<SwatchDragData>(
+            onWillAcceptWithDetails: (_) => true,
+            onMove: _dragMoved,
+            onLeave: (_) => _dragLeft(),
+            onAcceptWithDetails: _dropped,
+            builder: (context, candidates, rejected) => canvas,
           ),
         );
       },
@@ -332,6 +387,7 @@ class _CanvasPainter extends CustomPainter {
     required this.pulse,
     required this.hover,
     required this.hoverColor,
+    required this.hoverBackground,
     required this.hint,
     required this.onSemanticTap,
   }) : super(repaint: Listenable.merge([controller.liveRepaint, ripple, pulse]));
@@ -343,6 +399,7 @@ class _CanvasPainter extends CustomPainter {
   final Animation<double> pulse;
   final ColoringRegion? hover;
   final Color? hoverColor;
+  final bool hoverBackground;
   final ColoringRegion? hint;
   final void Function(ColoringRegion region) onSemanticTap;
 
@@ -350,7 +407,14 @@ class _CanvasPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final a = controller.artwork;
     final dest = transform.destination;
-    canvas.drawRRect(RRect.fromRectAndRadius(dest, const Radius.circular(6)), Paint()..color = Colors.white);
+    final paper = a.backgroundColor ?? Colors.white;
+    canvas.drawRRect(RRect.fromRectAndRadius(dest, const Radius.circular(6)), Paint()..color = paper);
+    if (hoverBackground && hoverColor != null) {
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(dest, const Radius.circular(6)),
+        Paint()..color = hoverColor!.withValues(alpha: 0.45),
+      );
+    }
     canvas.save();
     transform.apply(canvas);
     renderer.paintFills(canvas, a.fills, ripple: controller.lastRipple, rippleProgress: ripple.value);
@@ -378,28 +442,50 @@ class _CanvasPainter extends CustomPainter {
   }
 
   @override
-  SemanticsBuilderCallback get semanticsBuilder =>
-      (size) => [
-        for (final r in controller.template.fillableRegions)
-          CustomPainterSemantics(
-            rect: Rect.fromPoints(
-              transform.toLocal(r.bounds.topLeft),
-              transform.toLocal(r.bounds.bottomRight),
-            ),
-            properties: SemanticsProperties(
-              label: r.label,
-              button: true,
-              textDirection: TextDirection.ltr,
-              onTap: () => onSemanticTap(r),
-            ),
+  SemanticsBuilderCallback get semanticsBuilder {
+    // Fill-region targets steal taps in Draw / Stickers mode; only expose them for Fill.
+    if (controller.mode != StudioMode.fill) {
+      return (size) => [
+        CustomPainterSemantics(
+          rect: Offset.zero & size,
+          properties: SemanticsProperties(
+            label: 'Coloring picture: ${controller.template.title}',
+            textDirection: TextDirection.ltr,
           ),
+        ),
       ];
+    }
+    return (size) => [
+      for (final r in controller.template.fillableRegions)
+        CustomPainterSemantics(
+          rect: Rect.fromPoints(
+            transform.toLocal(r.bounds.topLeft),
+            transform.toLocal(r.bounds.bottomRight),
+          ),
+          properties: SemanticsProperties(
+            label: r.label,
+            button: true,
+            textDirection: TextDirection.ltr,
+            onTap: () => onSemanticTap(r),
+          ),
+        ),
+    ];
+  }
 
   @override
   bool shouldRebuildSemantics(_CanvasPainter old) =>
-      old.transform != transform || old.controller.template != controller.template;
+      old.transform != transform ||
+      old.controller.template != controller.template ||
+      old.controller.mode != controller.mode;
 
   @override
   bool shouldRepaint(_CanvasPainter old) =>
-      old.transform != transform || old.hover != hover || old.hoverColor != hoverColor || old.hint != hint;
+      old.transform != transform ||
+      old.hover != hover ||
+      old.hoverColor != hoverColor ||
+      old.hoverBackground != hoverBackground ||
+      old.hint != hint ||
+      old.controller.mode != controller.mode ||
+      old.controller.drawingRevision != controller.drawingRevision ||
+      old.controller.artwork.backgroundColor != controller.artwork.backgroundColor;
 }
