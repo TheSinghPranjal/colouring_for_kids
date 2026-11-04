@@ -1,0 +1,22 @@
+{
+  "id": "puzzle",
+  "title": "Puzzle",
+  "categoryId": "toys_imagination",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Puzzle",
+  "level": "little",
+  "regionCount": 8,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

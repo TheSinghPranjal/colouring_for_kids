@@ -1,0 +1,22 @@
+{
+  "id": "helicopter",
+  "title": "Helicopter",
+  "categoryId": "vehicles",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Helicopter",
+  "level": "little",
+  "regionCount": 8,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

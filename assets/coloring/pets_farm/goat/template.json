@@ -1,0 +1,22 @@
+{
+  "id": "goat",
+  "title": "Goat",
+  "categoryId": "pets_farm",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Goat",
+  "level": "little",
+  "regionCount": 8,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

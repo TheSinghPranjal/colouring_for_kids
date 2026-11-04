@@ -1,0 +1,22 @@
+{
+  "id": "tulip",
+  "title": "Tulip",
+  "categoryId": "flowers_garden",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Tulip",
+  "level": "little",
+  "regionCount": 7,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

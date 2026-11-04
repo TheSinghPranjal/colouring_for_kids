@@ -1,0 +1,22 @@
+{
+  "id": "yo_yo",
+  "title": "Yo-yo",
+  "categoryId": "toys_imagination",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Yo-yo",
+  "level": "little",
+  "regionCount": 7,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}
