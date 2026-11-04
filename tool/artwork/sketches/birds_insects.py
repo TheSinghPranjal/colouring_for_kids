@@ -129,4 +129,76 @@ def bee():
     return t
 
 
-TEMPLATES = [bird, duck, owl, butterfly, bee]
+def ladybug():
+    t = Template("ladybug", "Ladybug", CAT)
+    t.region("body", ellipse(500, 560, 220, 200), "red")
+    t.region("head", ellipse(500, 340, 110, 90), "black")
+    t.region("spot_1", circle(400, 500, 40), "black")
+    t.region("spot_2", circle(600, 500, 40), "black")
+    t.region("spot_3", circle(450, 620, 35), "black")
+    t.region("spot_4", circle(550, 620, 35), "black")
+    t.region("left_leg", band([(340, 560), (260, 640)], 22), "black")
+    t.region("right_leg", band([(660, 560), (740, 640)], 22), "black")
+    t.eyes(500, 330, 70, 14)
+    t.smile(500, 370, 40, 14)
+    return t
+
+
+def snail():
+    t = Template("snail", "Snail", CAT)
+    t.region("shell", circle(520, 480, 180), "orange")
+    t.region("shell_spiral", circle(520, 480, 90), "yellow")
+    t.region("body", ellipse(400, 700, 220, 90), "peach")
+    t.region("head", ellipse(220, 640, 80, 70), "peach")
+    t.region("left_antenna", band([(200, 600), (150, 480)], 22), "peach")
+    t.region("right_antenna", band([(240, 600), (280, 470)], 22), "peach")
+    t.region("left_tip", circle(145, 470, 32), "pink")
+    t.region("right_tip", circle(285, 460, 32), "pink")
+    t.eyes(210, 630, 40, 10)
+    t.smile(210, 660, 25, 10)
+    return t
+
+
+def parrot():
+    t = Template("parrot", "Parrot", CAT)
+    t.region("body", ellipse(500, 580, 140, 180), "green")
+    t.region("belly", ellipse(500, 620, 80, 100), "yellow")
+    t.region("head", circle(500, 340, 110), "red")
+    t.region("beak", poly([(480, 350), (620, 390), (480, 430)], 14), "orange")
+    t.region("wing", ellipse(380, 560, 90, 140, 20), "blue")
+    t.region("tail", band([(500, 740), (460, 880), (540, 900), (520, 760)], 40), "red")
+    t.region("perch", rect(300, 900, 400, 30, 12), "brown")
+    t.eyes(480, 320, 40, 12)
+    return t
+
+
+def penguin():
+    t = Template("penguin", "Penguin", CAT)
+    t.region("body", ellipse(500, 560, 170, 240), "black")
+    t.region("belly", ellipse(500, 600, 110, 170), "white")
+    t.region("head", circle(500, 300, 100), "black")
+    t.region("face", ellipse(500, 320, 60, 55), "white")
+    t.region("beak", poly([(455, 330), (545, 330), (500, 400)], 12), "orange")
+    t.region("left_flipper", ellipse(330, 560, 50, 110, 25), "black")
+    t.region("right_flipper", ellipse(670, 560, 50, 110, -25), "black")
+    t.region("left_foot", ellipse(430, 820, 55, 35), "orange")
+    t.region("right_foot", ellipse(570, 820, 55, 35), "orange")
+    t.eyes(500, 300, 50, 12)
+    return t
+
+
+def dragonfly():
+    t = Template("dragonfly", "Dragonfly", CAT)
+    t.region("body", band([(300, 500), (700, 500)], 50), "teal")
+    t.region("head", circle(260, 500, 55), "teal")
+    t.region("tail", band([(700, 500), (880, 500)], 28), "blue")
+    t.region("wing_tl", ellipse(420, 360, 140, 60, -20), "skyblue")
+    t.region("wing_tr", ellipse(580, 360, 140, 60, 20), "skyblue")
+    t.region("wing_bl", ellipse(420, 640, 140, 60, 20), "skyblue")
+    t.region("wing_br", ellipse(580, 640, 140, 60, -20), "skyblue")
+    t.eyes(250, 490, 40, 12)
+    t.smile(240, 520, 25, 10)
+    return t
+
+
+TEMPLATES = [bird, duck, owl, butterfly, bee, ladybug, snail, parrot, penguin, dragonfly]

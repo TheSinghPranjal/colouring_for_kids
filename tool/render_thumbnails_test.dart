@@ -26,7 +26,7 @@ void main() {
     final sheetRecorder = ui.PictureRecorder();
     final sheet = ui.Canvas(sheetRecorder);
     const cell = 220.0;
-    sheet.drawRect(const Rect.fromLTWH(0, 0, cell * 10, cell * 5), Paint()..color = const Color(0xFFFFFFFF));
+    sheet.drawRect(const Rect.fromLTWH(0, 0, cell * 10, cell * 10), Paint()..color = const Color(0xFFFFFFFF));
 
     final templates = ColoringCatalog.allTemplates;
     for (var i = 0; i < templates.length; i++) {
@@ -62,7 +62,7 @@ void main() {
       renderer.dispose();
     }
     if (sheetPath != null) {
-      final img = await sheetRecorder.endRecording().toImage((cell * 10).toInt(), (cell * 5).toInt());
+      final img = await sheetRecorder.endRecording().toImage((cell * 10).toInt(), (cell * 10).toInt());
       final png = await img.toByteData(format: ui.ImageByteFormat.png);
       await File(sheetPath).writeAsBytes(png!.buffer.asUint8List());
     }

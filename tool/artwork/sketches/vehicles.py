@@ -96,4 +96,67 @@ def boat():
     return t
 
 
-TEMPLATES = [car, bus, train, airplane, boat]
+def bicycle():
+    t = Template("bicycle", "Bicycle", CAT)
+    _wheel(t, "front_wheel", 700, 720, 120, "Front wheel")
+    _wheel(t, "back_wheel", 300, 720, 120, "Back wheel")
+    t.region("frame", band([(300, 720), (500, 480), (700, 720), (500, 480), (500, 360)], 36), "red")
+    t.region("seat", ellipse(480, 340, 70, 30), "black")
+    t.region("handle", band([(500, 360), (620, 300), (680, 280)], 28), "grey")
+    return t
+
+
+def truck():
+    t = Template("truck", "Truck", CAT)
+    t.region("cab", rect(200, 420, 220, 280, 24), "red")
+    t.region("window", rect(240, 460, 140, 100, 16), "skyblue")
+    t.region("bed", rect(420, 500, 380, 200, 20), "blue")
+    t.region("bumper", rect(180, 680, 80, 40, 12), "grey")
+    _wheel(t, "front_wheel", 300, 760, 90, "Front wheel")
+    _wheel(t, "back_wheel", 700, 760, 90, "Back wheel")
+    t.eyes(300, 520, 60, 12)
+    t.smile(300, 580, 40, 14)
+    return t
+
+
+def helicopter():
+    t = Template("helicopter", "Helicopter", CAT)
+    t.region("body", ellipse(500, 560, 200, 130), "red")
+    t.region("cabin", ellipse(420, 520, 90, 70), "skyblue")
+    t.region("tail", band([(680, 560), (880, 520)], 40), "red")
+    t.region("tail_fin", poly([(860, 500), (920, 440), (900, 560)], 12), "blue")
+    t.region("rotor", band([(200, 400), (800, 400)], 28), "grey")
+    t.region("mast", rect(480, 400, 40, 80, 10), "grey")
+    t.region("skid_l", band([(350, 700), (450, 700)], 22), "black")
+    t.region("skid_r", band([(550, 700), (650, 700)], 22), "black")
+    t.eyes(400, 510, 45, 12)
+    return t
+
+
+def motorcycle():
+    t = Template("motorcycle", "Motorcycle", CAT)
+    _wheel(t, "front_wheel", 720, 720, 110, "Front wheel")
+    _wheel(t, "back_wheel", 280, 720, 110, "Back wheel")
+    t.region("body", ellipse(500, 560, 160, 80), "orange")
+    t.region("tank", ellipse(520, 500, 90, 55), "red")
+    t.region("seat", ellipse(400, 520, 70, 35), "black")
+    t.region("handle", band([(600, 480), (700, 400)], 26), "grey")
+    t.region("exhaust", band([(320, 620), (200, 640)], 22), "grey")
+    return t
+
+
+def submarine():
+    t = Template("submarine", "Submarine", CAT)
+    t.region("body", ellipse(500, 560, 320, 140), "yellow")
+    t.region("window_1", circle(380, 540, 40), "skyblue")
+    t.region("window_2", circle(500, 540, 40), "skyblue")
+    t.region("window_3", circle(620, 540, 40), "skyblue")
+    t.region("tower", rect(450, 360, 100, 120, 20), "yellow")
+    t.region("periscope", rect(520, 280, 30, 100, 8), "grey")
+    t.region("prop", circle(180, 560, 50), "orange")
+    t.region("fin", poly([(700, 480), (780, 420), (740, 560)], 12), "orange")
+    t.smile(500, 600, 60, 18)
+    return t
+
+
+TEMPLATES = [car, bus, train, airplane, boat, bicycle, truck, helicopter, motorcycle, submarine]

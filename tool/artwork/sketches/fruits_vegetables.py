@@ -88,4 +88,67 @@ def corn():
     return t
 
 
-TEMPLATES = [apple, banana, strawberry, carrot, corn]
+def grapes():
+    t = Template("grapes", "Grapes", CAT)
+    t.region("stem", band([(500, 200), (500, 320)], 28), "brown")
+    t.region("leaf", lens((500, 280), -40, 180, 100), "green")
+    positions = [(430, 400), (570, 400), (360, 500), (500, 500), (640, 500), (430, 600), (570, 600), (500, 700)]
+    colours = ["purple", "purple", "purple", "pink", "purple", "purple", "pink", "purple"]
+    for i, ((x, y), c) in enumerate(zip(positions, colours)):
+        t.region(f"grape_{i + 1}", circle(x, y, 55), c, label=f"Grape {i + 1}")
+    return t
+
+
+def watermelon():
+    t = Template("watermelon", "Watermelon", CAT)
+    t.region("rind", ellipse(500, 560, 320, 260), "green")
+    t.region("flesh", ellipse(500, 560, 260, 200), "red")
+    t.region("seed_1", ellipse(420, 500, 28, 42, -20), "black")
+    t.region("seed_2", ellipse(520, 480, 28, 42, 10), "black")
+    t.region("seed_3", ellipse(580, 560, 28, 42, -15), "black")
+    t.region("seed_4", ellipse(450, 620, 28, 42, 20), "black")
+    t.region("seed_5", ellipse(550, 640, 28, 42, -10), "black")
+    t.eyes(500, 540, 70, 14)
+    t.smile(500, 600, 55, 18)
+    return t
+
+
+def pear():
+    t = Template("pear", "Pear", CAT)
+    t.region("stem", band([(500, 220), (520, 160)], 24), "brown")
+    t.region("leaf", lens((530, 180), 30, 120, 60), "green")
+    body = union(ellipse(500, 420, 120, 140), ellipse(500, 620, 180, 200))
+    t.region("body", body, "yellow")
+    t.region("blush", circle(400, 580, 40), "pink")
+    t.eyes(500, 500, 80, 16)
+    t.smile(500, 560, 55, 18)
+    return t
+
+
+def tomato():
+    t = Template("tomato", "Tomato", CAT)
+    t.region("body", circle(500, 560, 240), "red")
+    t.region("stem", band([(500, 340), (500, 220)], 40), "green")
+    t.region("leaf_1", lens((500, 280), -120, 160, 70), "green")
+    t.region("leaf_2", lens((500, 280), -60, 160, 70), "lightgreen")
+    t.region("leaf_3", lens((500, 280), 0, 160, 70), "green")
+    t.region("highlight", lens((380, 480), -50, 100, 50), "pink")
+    t.eyes(500, 520, 90, 16)
+    t.smile(500, 590, 60, 20)
+    return t
+
+
+def broccoli():
+    t = Template("broccoli", "Broccoli", CAT)
+    t.region("stalk", rect(420, 560, 160, 300, 40), "lightgreen")
+    t.region("floret_1", circle(400, 420, 110), "green")
+    t.region("floret_2", circle(500, 340, 130), "green")
+    t.region("floret_3", circle(600, 420, 110), "green")
+    t.region("floret_4", circle(450, 500, 90), "green")
+    t.region("floret_5", circle(550, 500, 90), "green")
+    t.eyes(500, 700, 70, 14)
+    t.smile(500, 760, 50, 16)
+    return t
+
+
+TEMPLATES = [apple, banana, strawberry, carrot, corn, grapes, watermelon, pear, tomato, broccoli]

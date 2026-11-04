@@ -90,7 +90,7 @@ def main():
                 f"{smallest[0]}={smallest[1].area:.0f}"
             )
             built.append((t, visible, outline_lines))
-        assert len(built) == 5, f"{cat} must have exactly five sketches"
+        assert len(built) == 10, f"{cat} must have exactly ten sketches"
         if preview_dir:
             os.makedirs(preview_dir, exist_ok=True)
             preview(built, os.path.join(preview_dir, f"{cat}.png"))

@@ -108,4 +108,64 @@ def windmill():
     return t
 
 
-TEMPLATES = [house, school, castle, shop, windmill]
+def barn():
+    t = Template("barn", "Barn", CAT)
+    t.region("wall", rect(200, 420, 600, 420, 20), "red")
+    t.region("roof", poly([(160, 420), (500, 200), (840, 420)], 16), "brown")
+    t.region("door", rect(400, 560, 200, 280, 16), "brown")
+    t.region("window_l", rect(250, 500, 100, 80, 12), "skyblue")
+    t.region("window_r", rect(650, 500, 100, 80, 12), "skyblue")
+    t.region("hay", ellipse(500, 700, 60, 40), "yellow")
+    t.region("ground", ellipse(500, 900, 400, 50), "lightgreen")
+    return t
+
+
+def lighthouse():
+    t = Template("lighthouse", "Lighthouse", CAT)
+    t.region("tower", poly([(380, 860), (420, 280), (580, 280), (620, 860)], 16), "white")
+    t.region("stripe", poly([(395, 520), (410, 400), (590, 400), (605, 520)], 10), "red")
+    t.region("lantern", rect(400, 180, 200, 120, 16), "yellow")
+    t.region("roof", poly([(370, 180), (500, 80), (630, 180)], 12), "red")
+    t.region("door", rect(450, 700, 100, 160, 12), "brown")
+    t.region("rock", ellipse(500, 900, 320, 60), "grey")
+    t.region("beam", poly([(600, 220), (900, 160), (900, 280), (600, 260)], 10), "yellow")
+    return t
+
+
+def igloo():
+    t = Template("igloo", "Igloo", CAT)
+    t.region("dome", ellipse(500, 560, 300, 260), "white")
+    t.region("entrance", ellipse(500, 720, 100, 80), "skyblue")
+    t.region("block_1", rect(280, 500, 120, 60, 10), "skyblue")
+    t.region("block_2", rect(450, 420, 120, 60, 10), "skyblue")
+    t.region("block_3", rect(600, 500, 120, 60, 10), "skyblue")
+    t.region("snow", ellipse(500, 880, 400, 50), "white")
+    t.region("flag_pole", band([(500, 300), (500, 160)], 28), "grey")
+    t.region("flag_cloth", poly([(500, 160), (620, 200), (500, 260)], 14), "red")
+    return t
+
+
+def tent():
+    t = Template("tent", "Tent", CAT)
+    t.region("left", poly([(200, 820), (500, 220), (500, 820)], 16), "red")
+    t.region("right", poly([(500, 220), (800, 820), (500, 820)], 16), "yellow")
+    t.region("door", poly([(430, 820), (500, 520), (570, 820)], 12), "brown")
+    t.region("pole", band([(500, 220), (500, 120)], 36), "grey")
+    t.region("flag", poly([(500, 120), (600, 160), (500, 220)], 12), "blue")
+    t.region("ground", ellipse(500, 880, 380, 45), "lightgreen")
+    return t
+
+
+def bridge():
+    t = Template("bridge", "Bridge", CAT)
+    t.region("deck", rect(100, 520, 800, 80, 16), "brown")
+    t.region("arch", ellipse(500, 600, 280, 160).intersection(rect(220, 520, 560, 200)), "grey")
+    t.region("left_tower", rect(140, 300, 80, 300, 12), "grey")
+    t.region("right_tower", rect(780, 300, 80, 300, 12), "grey")
+    t.region("cable_l", band([(180, 320), (400, 520)], 18), "black")
+    t.region("cable_r", band([(820, 320), (600, 520)], 18), "black")
+    t.region("water", rect(100, 780, 800, 120, 30), "skyblue")
+    return t
+
+
+TEMPLATES = [house, school, castle, shop, windmill, barn, lighthouse, igloo, tent, bridge]

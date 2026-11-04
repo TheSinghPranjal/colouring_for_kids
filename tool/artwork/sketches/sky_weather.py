@@ -96,4 +96,72 @@ def snowman():
     return t
 
 
-TEMPLATES = [sun, cloud, rainbow, moon, snowman]
+def star_sky():
+    t = Template("star_sky", "Star", CAT)
+    t.region("body", star(500, 480, 280, 120, 5), "yellow")
+    t.region("center", circle(500, 480, 80), "orange")
+    t.region("shine_1", circle(320, 280, 35), "white")
+    t.region("shine_2", circle(700, 300, 28), "white")
+    t.region("shine_3", circle(280, 650, 30), "white")
+    t.eyes(500, 460, 60, 14)
+    t.smile(500, 510, 45, 16)
+    return t
+
+
+def lightning():
+    t = Template("lightning", "Lightning", CAT)
+    bolt = poly(
+        [(420, 120), (580, 120), (500, 380), (620, 380), (380, 880), (480, 500), (360, 500)],
+        18,
+    )
+    t.region("bolt", bolt, "yellow")
+    t.region("cloud_l", circle(300, 200, 120), "grey")
+    t.region("cloud_r", circle(700, 200, 120), "grey")
+    t.region("cloud_m", circle(500, 160, 140), "grey")
+    t.region("spark_1", star(700, 500, 50, 22, 4), "orange")
+    t.region("spark_2", star(280, 600, 45, 20, 4), "orange")
+    t.eyes(500, 300, 50, 12)
+    t.smile(500, 350, 35, 12)
+    return t
+
+
+def umbrella():
+    t = Template("umbrella", "Umbrella", CAT)
+    t.region("canopy", ellipse(500, 400, 320, 180), "red")
+    t.region("panel_l", ellipse(360, 400, 100, 120), "yellow")
+    t.region("panel_r", ellipse(640, 400, 100, 120), "blue")
+    t.region("pole", band([(500, 400), (500, 820)], 28), "grey")
+    t.region("handle", band([(500, 820), (560, 880), (620, 860)], 32), "brown")
+    t.region("tip", circle(500, 260, 35), "yellow")
+    t.eyes(500, 380, 70, 14)
+    t.smile(500, 430, 50, 16)
+    return t
+
+
+def hot_air_balloon():
+    t = Template("hot_air_balloon", "Balloon", CAT)
+    t.region("balloon", ellipse(500, 380, 220, 260), "red")
+    t.region("stripe", rect(400, 300, 200, 80).intersection(ellipse(500, 380, 220, 260)), "yellow")
+    t.region("basket", rect(440, 720, 120, 100, 16), "brown")
+    t.region("rope_l", band([(420, 580), (460, 720)], 16), "brown")
+    t.region("rope_r", band([(580, 580), (540, 720)], 16), "brown")
+    t.region("flame", teardrop(500, 640, 35, 1.8, 180), "orange")
+    t.eyes(500, 360, 80, 16)
+    t.smile(500, 430, 55, 18)
+    return t
+
+
+def raincloud():
+    t = Template("raincloud", "Rain Cloud", CAT)
+    body = union(circle(340, 400, 130), circle(500, 340, 170), circle(660, 400, 130), rect(300, 420, 400, 120, 60))
+    t.region("cloud", body, "grey")
+    for i, x in enumerate((360, 460, 560, 660)):
+        t.region(f"drop_{i + 1}", teardrop(x, 700 + (i % 2) * 40, 35), "skyblue", label=f"Drop {i + 1}")
+    t.region("left_cheek", circle(400, 450, 30), "pink")
+    t.region("right_cheek", circle(600, 450, 30), "pink")
+    t.eyes(500, 400, 120, 20)
+    t.smile(500, 470, 70, 24)
+    return t
+
+
+TEMPLATES = [sun, cloud, rainbow, moon, snowman, star_sky, lightning, umbrella, hot_air_balloon, raincloud]

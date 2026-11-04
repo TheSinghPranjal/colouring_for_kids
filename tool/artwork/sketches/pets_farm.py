@@ -137,4 +137,77 @@ def chicken():
     return t
 
 
-TEMPLATES = [cat, dog, cow, pig, chicken]
+def horse():
+    t = Template("horse", "Horse", CAT)
+    t.region("tail", band([(300, 520), (180, 560), (160, 680), (220, 720)], 48), "brown")
+    t.region("body", ellipse(480, 620, 210, 150), "brown")
+    t.region("neck", band([(560, 520), (640, 380), (700, 320)], 90), "brown")
+    t.region("head", ellipse(740, 280, 110, 80), "brown")
+    t.region("mane", band([(620, 360), (580, 300), (640, 240), (720, 220)], 40), "black")
+    t.region("front_leg", rect(560, 720, 70, 180, 30), "brown")
+    t.region("back_leg", rect(360, 720, 70, 180, 30), "brown")
+    t.eyes(760, 260, 40, 12)
+    t.smile(780, 300, 30, 12)
+    return t
+
+
+def sheep():
+    t = Template("sheep", "Sheep", CAT)
+    wool = union(circle(380, 520, 120), circle(500, 460, 150), circle(620, 520, 120), circle(500, 600, 140))
+    t.region("wool", wool, "white")
+    t.region("head", ellipse(500, 700, 110, 90), "peach")
+    t.region("left_ear", ellipse(390, 690, 35, 55, -20), "peach")
+    t.region("right_ear", ellipse(610, 690, 35, 55, 20), "peach")
+    t.region("left_leg", rect(400, 780, 55, 130, 22), "black")
+    t.region("right_leg", rect(545, 780, 55, 130, 22), "black")
+    t.eyes(500, 690, 70, 14)
+    t.smile(500, 730, 45, 16)
+    return t
+
+
+def rabbit():
+    t = Template("rabbit", "Rabbit", CAT)
+    t.region("left_ear", ellipse(420, 220, 50, 160, -10), "white")
+    t.region("right_ear", ellipse(580, 220, 50, 160, 10), "white")
+    t.region("left_inner", ellipse(420, 220, 22, 100, -10), "pink")
+    t.region("right_inner", ellipse(580, 220, 22, 100, 10), "pink")
+    t.region("body", ellipse(500, 680, 160, 180), "white")
+    t.region("head", ellipse(500, 420, 140, 130), "white")
+    t.region("belly", ellipse(500, 700, 80, 100), "peach")
+    t.region("tail", circle(340, 720, 45), "white")
+    t.eyes(500, 400, 80, 16)
+    t.smile(500, 450, 40, 14)
+    return t
+
+
+def goat():
+    t = Template("goat", "Goat", CAT)
+    t.region("body", ellipse(480, 620, 200, 140), "grey")
+    t.region("head", ellipse(700, 420, 100, 85), "grey")
+    t.region("neck", band([(580, 540), (660, 460)], 80), "grey")
+    t.region("left_horn", band([(660, 360), (640, 260), (620, 220)], 28), "peach")
+    t.region("right_horn", band([(720, 360), (740, 260), (760, 220)], 28), "peach")
+    t.region("front_leg", rect(560, 720, 60, 170, 26), "grey")
+    t.region("back_leg", rect(360, 720, 60, 170, 26), "grey")
+    t.region("beard", poly([(670, 470), (700, 600), (730, 470)], 16), "white")
+    t.eyes(710, 400, 45, 12)
+    t.smile(730, 440, 28, 12)
+    return t
+
+
+def mouse():
+    t = Template("mouse", "Mouse", CAT)
+    t.region("tail", band([(280, 620), (160, 560), (120, 480), (180, 420)], 28), "pink")
+    t.region("body", ellipse(480, 620, 180, 150), "grey")
+    t.region("head", ellipse(660, 520, 120, 100), "grey")
+    t.region("left_ear", circle(600, 420, 55), "grey")
+    t.region("right_ear", circle(700, 400, 55), "grey")
+    t.region("left_inner", circle(600, 420, 28), "pink")
+    t.region("right_inner", circle(700, 400, 28), "pink")
+    t.region("nose", circle(760, 530, 35), "pink")
+    t.eyes(680, 500, 50, 12)
+    t.smile(700, 545, 30, 12)
+    return t
+
+
+TEMPLATES = [cat, dog, cow, pig, chicken, horse, sheep, rabbit, goat, mouse]

@@ -2,7 +2,7 @@ import math
 
 from shapely.geometry import Polygon
 
-from lib import Template, band, catmull, circle, ellipse, mirror, poly, rect, teardrop, union, lens
+from lib import Template, band, catmull, circle, ellipse, mirror, poly, rect, teardrop, union, lens, star
 
 CAT = "toys_imagination"
 
@@ -112,4 +112,70 @@ def toy_rocket():
     return t
 
 
-TEMPLATES = [teddy_bear, ball, kite, toy_robot, toy_rocket]
+def drum():
+    t = Template("drum", "Drum", CAT)
+    t.region("top", ellipse(500, 360, 260, 80), "yellow")
+    t.region("body", rect(240, 360, 520, 360, 20), "red")
+    t.region("bottom", ellipse(500, 720, 260, 80), "orange")
+    t.region("stripe", rect(240, 500, 520, 60), "blue")
+    t.region("left_stick", band([(200, 280), (320, 400)], 22), "brown")
+    t.region("right_stick", band([(800, 280), (680, 400)], 22), "brown")
+    t.eyes(500, 540, 80, 14)
+    t.smile(500, 600, 55, 16)
+    return t
+
+
+def blocks():
+    t = Template("blocks", "Blocks", CAT)
+    t.region("block_red", rect(220, 560, 200, 200, 20), "red")
+    t.region("block_blue", rect(400, 360, 200, 200, 20), "blue")
+    t.region("block_yellow", rect(580, 560, 200, 200, 20), "yellow")
+    t.region("block_green", rect(400, 160, 200, 200, 20), "green")
+    t.region("letter_a", circle(500, 460, 40), "white")
+    t.region("letter_b", circle(320, 660, 40), "white")
+    t.region("letter_c", circle(680, 660, 40), "white")
+    return t
+
+
+def doll():
+    t = Template("doll", "Doll", CAT)
+    t.region("dress", poly([(320, 520), (680, 520), (720, 880), (280, 880)], 24), "pink")
+    t.region("body", ellipse(500, 480, 90, 70), "peach")
+    t.region("head", circle(500, 320, 110), "peach")
+    t.region("hair", ellipse(500, 260, 130, 80), "brown")
+    t.region("left_arm", band([(380, 480), (260, 620)], 40), "peach")
+    t.region("right_arm", band([(620, 480), (740, 620)], 40), "peach")
+    t.region("bow", star(500, 200, 40, 18, 4), "red")
+    t.eyes(500, 310, 70, 14)
+    t.smile(500, 360, 45, 14)
+    return t
+
+
+def yo_yo():
+    t = Template("yo_yo", "Yo-yo", CAT)
+    t.region("left_disk", circle(380, 520, 180), "red")
+    t.region("right_disk", circle(620, 520, 180), "blue")
+    t.region("hub", circle(500, 520, 50), "yellow")
+    t.region("string", band([(500, 520), (500, 200)], 16), "grey")
+    t.region("loop", circle(500, 180, 30), "grey")
+    t.region("stripe_l", rect(280, 500, 200, 40).intersection(circle(380, 520, 180)), "yellow")
+    t.region("stripe_r", rect(520, 500, 200, 40).intersection(circle(620, 520, 180)), "yellow")
+    t.eyes(500, 500, 40, 10)
+    t.smile(500, 545, 30, 12)
+    return t
+
+
+def puzzle():
+    t = Template("puzzle", "Puzzle", CAT)
+    t.region("piece_1", rect(200, 250, 280, 280, 24), "red")
+    t.region("piece_2", rect(520, 250, 280, 280, 24), "blue")
+    t.region("piece_3", rect(200, 570, 280, 280, 24), "yellow")
+    t.region("piece_4", rect(520, 570, 280, 280, 24), "green")
+    t.region("knob_1", circle(480, 390, 45), "red")
+    t.region("knob_2", circle(660, 530, 45), "blue")
+    t.region("knob_3", circle(340, 710, 45), "yellow")
+    t.region("knob_4", circle(660, 710, 45), "green")
+    return t
+
+
+TEMPLATES = [teddy_bear, ball, kite, toy_robot, toy_rocket, drum, blocks, doll, yo_yo, puzzle]

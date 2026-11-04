@@ -160,4 +160,81 @@ def giraffe():
     return t
 
 
-TEMPLATES = [elephant, turtle, lion, monkey, giraffe]
+def zebra():
+    t = Template("zebra", "Zebra", CAT)
+    t.region("body", ellipse(480, 600, 200, 140), "white")
+    t.region("stripe_1", rect(380, 540, 50, 120, 10).intersection(ellipse(480, 600, 200, 140)), "black")
+    t.region("stripe_2", rect(480, 540, 50, 120, 10).intersection(ellipse(480, 600, 200, 140)), "black")
+    t.region("stripe_3", rect(560, 540, 50, 120, 10).intersection(ellipse(480, 600, 200, 140)), "black")
+    t.region("neck", band([(600, 520), (680, 380)], 90), "white")
+    t.region("head", ellipse(740, 320, 100, 80), "white")
+    t.region("mane", band([(640, 400), (620, 300), (700, 260)], 36), "black")
+    t.region("front_leg", rect(560, 700, 60, 180, 26), "white")
+    t.region("back_leg", rect(360, 700, 60, 180, 26), "white")
+    t.eyes(760, 300, 40, 12)
+    t.smile(780, 340, 28, 12)
+    return t
+
+
+def panda():
+    t = Template("panda", "Panda", CAT)
+    t.region("body", ellipse(500, 680, 180, 160), "white")
+    t.region("belly", ellipse(500, 700, 90, 100), "white")
+    t.region("head", ellipse(500, 400, 160, 150), "white")
+    t.region("left_ear", circle(380, 280, 55), "black")
+    t.region("right_ear", circle(620, 280, 55), "black")
+    t.region("left_patch", ellipse(430, 390, 45, 55, -20), "black")
+    t.region("right_patch", ellipse(570, 390, 45, 55, 20), "black")
+    t.region("left_arm", ellipse(340, 620, 70, 110, 30), "black")
+    t.region("right_arm", ellipse(660, 620, 70, 110, -30), "black")
+    t.eyes(500, 400, 90, 16)
+    t.smile(500, 460, 50, 16)
+    return t
+
+
+def fox():
+    t = Template("fox", "Fox", CAT)
+    t.region("tail", band([(280, 640), (160, 600), (140, 500), (220, 460)], 70), "orange")
+    t.region("tail_tip", circle(150, 480, 40), "white")
+    t.region("body", ellipse(480, 640, 170, 140), "orange")
+    t.region("head", ellipse(650, 420, 130, 110), "orange")
+    t.region("left_ear", poly([(560, 360), (540, 240), (620, 330)], 12), "orange")
+    t.region("right_ear", poly([(700, 340), (760, 230), (740, 360)], 12), "orange")
+    t.region("muzzle", ellipse(700, 470, 60, 45), "white")
+    t.region("chest", ellipse(500, 680, 70, 80), "white")
+    t.eyes(640, 400, 55, 14)
+    t.smile(700, 490, 30, 12)
+    return t
+
+
+def hippo():
+    t = Template("hippo", "Hippo", CAT)
+    t.region("body", ellipse(480, 620, 230, 170), "grey")
+    t.region("head", ellipse(700, 520, 160, 130), "grey")
+    t.region("snout", ellipse(820, 560, 90, 70), "grey")
+    t.region("left_ear", circle(620, 420, 35), "grey")
+    t.region("right_ear", circle(720, 400, 35), "grey")
+    t.region("front_leg", rect(560, 740, 80, 150, 30), "grey")
+    t.region("back_leg", rect(340, 740, 80, 150, 30), "grey")
+    t.region("belly", ellipse(460, 660, 100, 80), "peach")
+    t.eyes(700, 480, 60, 14)
+    t.smile(820, 580, 40, 14)
+    return t
+
+
+def koala():
+    t = Template("koala", "Koala", CAT)
+    t.region("body", ellipse(500, 680, 170, 160), "grey")
+    t.region("head", ellipse(500, 400, 170, 160), "grey")
+    t.region("left_ear", circle(340, 320, 80), "grey")
+    t.region("right_ear", circle(660, 320, 80), "grey")
+    t.region("left_inner", circle(340, 320, 40), "pink")
+    t.region("right_inner", circle(660, 320, 40), "pink")
+    t.region("nose", ellipse(500, 430, 45, 55), "black")
+    t.region("belly", ellipse(500, 700, 80, 90), "peach")
+    t.eyes(500, 370, 100, 18)
+    t.smile(500, 490, 40, 14)
+    return t
+
+
+TEMPLATES = [elephant, turtle, lion, monkey, giraffe, zebra, panda, fox, hippo, koala]

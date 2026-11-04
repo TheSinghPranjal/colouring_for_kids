@@ -144,4 +144,70 @@ def seahorse():
     return t
 
 
-TEMPLATES = [fish, octopus, whale, crab, seahorse]
+def starfish():
+    t = Template("starfish", "Starfish", CAT)
+    from lib import star
+
+    t.region("body", star(500, 500, 280, 120, 5), "orange")
+    t.region("center", circle(500, 500, 90), "yellow")
+    t.region("dot_1", circle(500, 320, 28), "red")
+    t.region("dot_2", circle(650, 450, 28), "red")
+    t.region("dot_3", circle(600, 650, 28), "red")
+    t.region("dot_4", circle(400, 650, 28), "red")
+    t.region("dot_5", circle(350, 450, 28), "red")
+    t.eyes(500, 480, 55, 12)
+    t.smile(500, 530, 40, 14)
+    return t
+
+
+def dolphin():
+    t = Template("dolphin", "Dolphin", CAT)
+    t.region("body", ellipse(480, 520, 260, 120, -15), "skyblue")
+    t.region("belly", ellipse(480, 560, 180, 60, -15), "white")
+    t.region("head", ellipse(720, 480, 110, 80, -10), "skyblue")
+    t.region("fin", poly([(480, 420), (520, 300), (560, 420)], 14), "blue")
+    t.region("tail", poly([(220, 520), (120, 440), (140, 560), (120, 620)], 16), "blue")
+    t.region("flipper", ellipse(500, 600, 70, 35, 30), "blue")
+    t.eyes(740, 460, 40, 12)
+    t.smile(780, 500, 35, 12)
+    return t
+
+
+def jellyfish():
+    t = Template("jellyfish", "Jellyfish", CAT)
+    t.region("dome", ellipse(500, 380, 210, 160), "pink")
+    t.region("underside", ellipse(500, 480, 180, 50), "peach")
+    for i, x in enumerate((360, 430, 500, 570, 640)):
+        t.region(f"tentacle_{i + 1}", band([(x, 500), (x + (i - 2) * 15, 850)], 28), "pink", label=f"Tentacle {i + 1}")
+    t.eyes(500, 380, 80, 14)
+    t.smile(500, 430, 55, 16)
+    return t
+
+
+def shark():
+    t = Template("shark", "Shark", CAT)
+    t.region("body", ellipse(480, 520, 280, 110), "grey")
+    t.region("belly", ellipse(480, 560, 200, 50), "white")
+    t.region("fin", poly([(480, 420), (520, 280), (560, 420)], 14), "grey")
+    t.region("tail", poly([(200, 520), (80, 420), (100, 520), (80, 620)], 14), "grey")
+    t.region("side_fin", ellipse(500, 600, 80, 35, 25), "grey")
+    t.region("nose", ellipse(760, 520, 70, 50), "grey")
+    t.eyes(700, 490, 40, 12)
+    t.smile(760, 545, 40, 12)
+    return t
+
+
+def clam():
+    t = Template("clam", "Clam", CAT)
+    t.region("bottom", ellipse(500, 620, 280, 160), "peach")
+    t.region("top", ellipse(500, 480, 280, 160), "pink")
+    t.region("hinge", ellipse(500, 550, 80, 40), "purple")
+    t.region("pearl", circle(500, 580, 55), "white")
+    t.region("left_ridge", band([(300, 520), (280, 620), (320, 700)], 24), "pink")
+    t.region("right_ridge", band([(700, 520), (720, 620), (680, 700)], 24), "pink")
+    t.eyes(500, 450, 70, 14)
+    t.smile(500, 500, 45, 14)
+    return t
+
+
+TEMPLATES = [fish, octopus, whale, crab, seahorse, starfish, dolphin, jellyfish, shark, clam]

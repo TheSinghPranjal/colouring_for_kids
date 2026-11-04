@@ -69,19 +69,27 @@ void main() {
     expect(find.text('Pick a Picture'), findsOneWidget);
     for (final c in ColoringCatalog.categories) {
       await tester.scrollUntilVisible(
-        find.bySemanticsLabel('${c.title}, 5 pictures'),
+        find.bySemanticsLabel('${c.title}, 10 pictures'),
         200,
         scrollable: find.byType(Scrollable).first,
       );
     }
     await tester.drag(find.byType(Scrollable).first, const Offset(0, 3000));
     await tester.pumpAndSettle();
-    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 5 pictures').last);
+    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 10 pictures').last);
     await tester.pumpAndSettle();
     for (final id in ColoringCatalog.category('flowers_garden')!.templateIds) {
-      expect(find.bySemanticsLabel(ColoringCatalog.template(id)!.title), findsOneWidget);
+      final title = ColoringCatalog.template(id)!.title;
+      await tester.scrollUntilVisible(
+        find.bySemanticsLabel(title),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.bySemanticsLabel(title), findsWidgets);
     }
-    await tester.tap(find.bySemanticsLabel('Flower'));
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, 3000));
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Flower').first);
     await tester.pumpAndSettle();
     expect(find.byType(ColoringStudioScreen), findsOneWidget);
     final studio = tester.state(find.byType(ColoringStudioScreen));
@@ -213,18 +221,25 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Play'));
     await tester.pumpAndSettle();
     for (final category in ColoringCatalog.categories) {
-      final card = find.bySemanticsLabel('${category.title}, 5 pictures');
+      final card = find.bySemanticsLabel('${category.title}, 10 pictures');
       await tester.scrollUntilVisible(card, 150, scrollable: find.byType(Scrollable).first);
       await tester.pumpAndSettle();
       await tester.tap(card.first);
       await tester.pumpAndSettle();
       for (final id in category.templateIds) {
-        await tester.tap(find.bySemanticsLabel(ColoringCatalog.template(id)!.title).first);
+        final title = ColoringCatalog.template(id)!.title;
+        await tester.scrollUntilVisible(
+          find.bySemanticsLabel(title),
+          150,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(find.bySemanticsLabel(title).first);
         await tester.pumpAndSettle();
         final screen = tester.widget<ColoringStudioScreen>(find.byType(ColoringStudioScreen));
         expect(screen.templateId, id);
         expect(
-          find.bySemanticsLabel('Coloring picture: ${ColoringCatalog.template(id)!.title}'),
+          find.bySemanticsLabel('Coloring picture: $title'),
           findsOneWidget,
         );
         await tester.tap(find.bySemanticsLabel('Back'));
@@ -250,7 +265,7 @@ void main() {
     // Start a picture, come back, and resume it from the title screen.
     await tester.tap(find.bySemanticsLabel('Play'));
     await tester.pumpAndSettle();
-    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 5 pictures').first);
+    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 10 pictures').first);
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Flower'));
     await tester.pumpAndSettle();

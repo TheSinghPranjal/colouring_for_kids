@@ -11,18 +11,117 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'helpers.dart';
 
-/// The 50 sketches the product requires, by category.
+/// The 100 sketches the product requires, by category.
 const expected = {
-  'flowers_garden': ['flower', 'flower_pot', 'tree', 'mushroom', 'leaf'],
-  'pets_farm': ['cat', 'dog', 'cow', 'pig', 'chicken'],
-  'wild_animals': ['elephant', 'turtle', 'lion', 'monkey', 'giraffe'],
-  'birds_insects': ['bird', 'duck', 'owl', 'butterfly', 'bee'],
-  'underwater_world': ['fish', 'octopus', 'whale', 'crab', 'seahorse'],
-  'vehicles': ['car', 'bus', 'train', 'airplane', 'boat'],
-  'buildings_places': ['house', 'school', 'castle', 'shop', 'windmill'],
-  'fruits_vegetables': ['apple', 'banana', 'strawberry', 'carrot', 'corn'],
-  'sky_weather': ['sun', 'cloud', 'rainbow', 'moon', 'snowman'],
-  'toys_imagination': ['teddy_bear', 'ball', 'kite', 'toy_robot', 'toy_rocket'],
+  'flowers_garden': [
+    'flower',
+    'flower_pot',
+    'tree',
+    'mushroom',
+    'leaf',
+    'tulip',
+    'sunflower',
+    'cactus',
+    'rose',
+    'daisy',
+  ],
+  'pets_farm': ['cat', 'dog', 'cow', 'pig', 'chicken', 'horse', 'sheep', 'rabbit', 'goat', 'mouse'],
+  'wild_animals': [
+    'elephant',
+    'turtle',
+    'lion',
+    'monkey',
+    'giraffe',
+    'zebra',
+    'panda',
+    'fox',
+    'hippo',
+    'koala',
+  ],
+  'birds_insects': [
+    'bird',
+    'duck',
+    'owl',
+    'butterfly',
+    'bee',
+    'ladybug',
+    'snail',
+    'parrot',
+    'penguin',
+    'dragonfly',
+  ],
+  'underwater_world': [
+    'fish',
+    'octopus',
+    'whale',
+    'crab',
+    'seahorse',
+    'starfish',
+    'dolphin',
+    'jellyfish',
+    'shark',
+    'clam',
+  ],
+  'vehicles': [
+    'car',
+    'bus',
+    'train',
+    'airplane',
+    'boat',
+    'bicycle',
+    'truck',
+    'helicopter',
+    'motorcycle',
+    'submarine',
+  ],
+  'buildings_places': [
+    'house',
+    'school',
+    'castle',
+    'shop',
+    'windmill',
+    'barn',
+    'lighthouse',
+    'igloo',
+    'tent',
+    'bridge',
+  ],
+  'fruits_vegetables': [
+    'apple',
+    'banana',
+    'strawberry',
+    'carrot',
+    'corn',
+    'grapes',
+    'watermelon',
+    'pear',
+    'tomato',
+    'broccoli',
+  ],
+  'sky_weather': [
+    'sun',
+    'cloud',
+    'rainbow',
+    'moon',
+    'snowman',
+    'star_sky',
+    'lightning',
+    'umbrella',
+    'hot_air_balloon',
+    'raincloud',
+  ],
+  'toys_imagination': [
+    'teddy_bear',
+    'ball',
+    'kite',
+    'toy_robot',
+    'toy_rocket',
+    'drum',
+    'blocks',
+    'doll',
+    'yo_yo',
+    'puzzle',
+  ],
 };
 
 void main() {
@@ -36,14 +135,14 @@ void main() {
     }
   });
 
-  test('exactly ten categories with exactly five sketches each', () {
+  test('exactly ten categories with exactly ten sketches each', () {
     expect(ColoringCatalog.categories.map((c) => c.id).toList(), expected.keys.toList());
     for (final c in ColoringCatalog.categories) {
       expect(c.templateIds, expected[c.id], reason: c.id);
       expect(c.templateIds, contains(c.coverTemplateId));
     }
-    expect(ColoringCatalog.allTemplates, hasLength(50));
-    expect(ColoringCatalog.allTemplates.map((t) => t.id).toSet(), hasLength(50));
+    expect(ColoringCatalog.allTemplates, hasLength(100));
+    expect(ColoringCatalog.allTemplates.map((t) => t.id).toSet(), hasLength(100));
   });
 
   for (final info in ColoringCatalog.allTemplates) {

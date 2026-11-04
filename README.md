@@ -8,7 +8,7 @@ A coloring studio for children aged 2–5 that works offline. A child picks a co
 
 | Requirement | Where |
 |---|---|
-| 10 categories × 5 sketches (50 original templates) | `assets/coloring/<category>/<id>/` (`outline.svg`, `regions.json`, `template.json`, `thumbnail.png`), catalogue in `lib/data/coloring_catalog.dart` |
+| 10 categories × 10 sketches (100 original templates) | `assets/coloring/<category>/<id>/` (`outline.svg`, `regions.json`, `template.json`, `thumbnail.png`), catalogue in `lib/data/coloring_catalog.dart` |
 | Region engine (vector paths, stable IDs, z-order) | `lib/engines/region_coloring/` |
 | Drag-to-fill + tap-to-fill, hover highlight, missed drops glide back to the palette | `coloring_canvas.dart`, `widgets/color_palette.dart` |
 | Pencil, Crayon, Marker, Watercolor + 3 sizes + live preview | `engines/free_draw/stroke_renderer.dart`, `widgets/drawing_toolbar.dart` |
@@ -59,7 +59,7 @@ Each project is a small versioned JSON file in `<documents>/artworks/`. It holds
 - `dart format --set-exit-if-changed lib test tool`: clean
 - `flutter analyze`: **no issues**
 - `flutter test`: **241 tests passed**. The suite covers:
-  - `template_validation_test`: for each of the 50 templates, the assets exist, the metadata matches, IDs are unique, bounds fit the view box, every region is at least 1600 units² in area, and an interior sample point hits its own region. It also checks that filling a region never touches another, and that a grid scan finds no overlapping regions.
+  - `template_validation_test`: for each of the 100 templates, the assets exist, the metadata matches, IDs are unique, bounds fit the view box, every region is at least 1600 units² in area, and an interior sample point hits its own region. It also checks that filling a region never touches another, and that a grid scan finds no overlapping regions.
   - `region_engine_test`: red on one petal fills only that petal, regions fill independently, recolouring works, drops outside the picture do nothing, results are the same at several screen sizes and letterbox shapes, and points on boundaries resolve the same way every time.
   - `drawing_test`: the four tools render differently from each other, sizes go up in order, erasing is partial and reveals the fill underneath, the outline survives, undo/redo works across mixed actions, Clear and Reset behave correctly, history is capped, and stickers can be moved or removed.
   - `export_test`: the PNG signature is valid, the image is 2048×2048 with fill, outline and stroke pixels where expected, the outline is still visible next to a white region, and file names are sensible. Gallery outcomes are covered: success, permission denied, write failure, and an unsupported platform.

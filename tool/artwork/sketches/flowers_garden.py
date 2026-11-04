@@ -149,4 +149,71 @@ def leaf():
     return t
 
 
-TEMPLATES = [flower, flower_pot, tree, mushroom, leaf]
+def tulip():
+    t = Template("tulip", "Tulip", CAT)
+    t.region("left_leaf", lens((420, 780), -140, 260, 110), "green")
+    t.region("right_leaf", lens((580, 800), -40, 250, 110), "lightgreen")
+    t.region("stem", band([(500, 420), (500, 900)], 40), "green")
+    for i, a in enumerate((-110, -90, -70)):
+        t.region(f"petal_{i + 1}", petal((500, 360), a, 220, 140), ["pink", "red", "pink"][i], label=f"Petal {i + 1}")
+    t.region("base", ellipse(500, 430, 70, 40), "yellow")
+    t.eyes(500, 320, 70, 14)
+    t.smile(500, 355, 50, 18)
+    return t
+
+
+def sunflower():
+    t = Template("sunflower", "Sunflower", CAT)
+    t.region("stem", band([(500, 560), (500, 920)], 44), "green")
+    t.region("leaf", lens((500, 740), -50, 220, 120), "lightgreen")
+    c = (500, 380)
+    for i in range(8):
+        a = -90 + i * 45
+        t.region(f"petal_{i + 1}", petal(c, a, 210, 90), "yellow", label=f"Petal {i + 1}")
+    t.region("center", circle(*c, 110), "brown")
+    t.eyes(500, 365, 70, 14)
+    t.smile(500, 400, 55, 18)
+    return t
+
+
+def cactus():
+    t = Template("cactus", "Cactus", CAT)
+    t.region("pot", poly([(340, 780), (660, 780), (620, 950), (380, 950)], 20), "orange")
+    t.region("soil", ellipse(500, 780, 150, 30), "brown")
+    t.region("body", rect(430, 280, 140, 520, 60), "green")
+    t.region("left_arm", rect(280, 420, 160, 90, 45), "lightgreen")
+    t.region("right_arm", rect(560, 500, 160, 90, 45), "lightgreen")
+    t.region("flower", circle(500, 250, 55), "pink")
+    t.eyes(500, 480, 70, 14)
+    t.smile(500, 530, 50, 18)
+    return t
+
+
+def rose():
+    t = Template("rose", "Rose", CAT)
+    t.region("left_leaf", lens((430, 760), -150, 240, 100), "green")
+    t.region("right_leaf", lens((570, 780), -30, 240, 100), "lightgreen")
+    t.region("stem", band([(500, 480), (500, 900)], 36), "green")
+    t.region("outer", circle(500, 340, 200), "red")
+    t.region("mid", circle(500, 340, 140), "pink")
+    t.region("inner", circle(500, 340, 80), "red")
+    t.eyes(500, 320, 55, 12)
+    t.smile(500, 355, 40, 14)
+    return t
+
+
+def daisy():
+    t = Template("daisy", "Daisy", CAT)
+    t.region("stem", band([(500, 520), (500, 920)], 36), "green")
+    t.region("leaf", lens((500, 780), 40, 200, 90), "lightgreen")
+    c = (500, 360)
+    for i in range(8):
+        a = -90 + i * 45
+        t.region(f"petal_{i + 1}", petal(c, a, 180, 70), "white", label=f"Petal {i + 1}")
+    t.region("center", circle(*c, 85), "yellow")
+    t.eyes(500, 350, 55, 12)
+    t.smile(500, 380, 40, 14)
+    return t
+
+
+TEMPLATES = [flower, flower_pot, tree, mushroom, leaf, tulip, sunflower, cactus, rose, daisy]
