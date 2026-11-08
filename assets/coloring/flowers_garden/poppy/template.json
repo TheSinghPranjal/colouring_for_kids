@@ -1,0 +1,22 @@
+{
+  "id": "poppy",
+  "title": "Poppy",
+  "categoryId": "flowers_garden",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Poppy",
+  "level": "explorer",
+  "regionCount": 10,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

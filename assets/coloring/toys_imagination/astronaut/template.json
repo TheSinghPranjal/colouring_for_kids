@@ -1,0 +1,22 @@
+{
+  "id": "astronaut",
+  "title": "Astronaut",
+  "categoryId": "toys_imagination",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Astronaut",
+  "level": "explorer",
+  "regionCount": 12,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

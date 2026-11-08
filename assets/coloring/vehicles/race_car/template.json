@@ -1,0 +1,22 @@
+{
+  "id": "race_car",
+  "title": "Race Car",
+  "categoryId": "vehicles",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Race Car",
+  "level": "explorer",
+  "regionCount": 9,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

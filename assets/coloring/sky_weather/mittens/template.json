@@ -1,0 +1,22 @@
+{
+  "id": "mittens",
+  "title": "Mittens",
+  "categoryId": "sky_weather",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Mittens",
+  "level": "explorer",
+  "regionCount": 9,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

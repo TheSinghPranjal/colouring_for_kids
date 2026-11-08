@@ -1,0 +1,22 @@
+{
+  "id": "apartment",
+  "title": "Apartment",
+  "categoryId": "buildings_places",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Apartment",
+  "level": "explorer",
+  "regionCount": 14,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

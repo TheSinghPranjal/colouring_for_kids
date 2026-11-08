@@ -1,0 +1,22 @@
+{
+  "id": "tow_truck",
+  "title": "Tow Truck",
+  "categoryId": "vehicles",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Tow Truck",
+  "level": "explorer",
+  "regionCount": 10,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "hut",
+  "title": "Hut",
+  "categoryId": "buildings_places",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Hut",
+  "level": "little",
+  "regionCount": 8,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

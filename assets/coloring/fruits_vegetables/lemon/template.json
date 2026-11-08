@@ -1,0 +1,22 @@
+{
+  "id": "lemon",
+  "title": "Lemon",
+  "categoryId": "fruits_vegetables",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Lemon",
+  "level": "little",
+  "regionCount": 6,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "police_car",
+  "title": "Police Car",
+  "categoryId": "vehicles",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Police Car",
+  "level": "explorer",
+  "regionCount": 13,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

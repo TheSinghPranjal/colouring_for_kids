@@ -1,0 +1,22 @@
+{
+  "id": "wizard_hat",
+  "title": "Wizard Hat",
+  "categoryId": "toys_imagination",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Wizard Hat",
+  "level": "little",
+  "regionCount": 7,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

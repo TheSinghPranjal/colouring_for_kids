@@ -1,0 +1,22 @@
+{
+  "id": "skateboard",
+  "title": "Skateboard",
+  "categoryId": "vehicles",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Skateboard",
+  "level": "explorer",
+  "regionCount": 9,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

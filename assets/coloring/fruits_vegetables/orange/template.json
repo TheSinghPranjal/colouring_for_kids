@@ -1,0 +1,22 @@
+{
+  "id": "orange",
+  "title": "Orange",
+  "categoryId": "fruits_vegetables",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Orange",
+  "level": "little",
+  "regionCount": 5,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

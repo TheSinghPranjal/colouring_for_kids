@@ -1,0 +1,22 @@
+{
+  "id": "bear",
+  "title": "Bear",
+  "categoryId": "wild_animals",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Bear",
+  "level": "explorer",
+  "regionCount": 14,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

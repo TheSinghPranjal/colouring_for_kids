@@ -1,0 +1,22 @@
+{
+  "id": "shrimp",
+  "title": "Shrimp",
+  "categoryId": "underwater_world",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Shrimp",
+  "level": "little",
+  "regionCount": 6,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

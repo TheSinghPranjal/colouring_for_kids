@@ -1,0 +1,22 @@
+{
+  "id": "turkey",
+  "title": "Turkey",
+  "categoryId": "pets_farm",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Turkey",
+  "level": "explorer",
+  "regionCount": 14,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

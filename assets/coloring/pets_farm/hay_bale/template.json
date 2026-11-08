@@ -1,0 +1,22 @@
+{
+  "id": "hay_bale",
+  "title": "Hay Bale",
+  "categoryId": "pets_farm",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Hay Bale",
+  "level": "little",
+  "regionCount": 7,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

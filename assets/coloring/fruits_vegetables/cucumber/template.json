@@ -1,0 +1,22 @@
+{
+  "id": "cucumber",
+  "title": "Cucumber",
+  "categoryId": "fruits_vegetables",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Cucumber",
+  "level": "little",
+  "regionCount": 4,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

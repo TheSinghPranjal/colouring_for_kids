@@ -1,0 +1,22 @@
+{
+  "id": "weather_vane",
+  "title": "Weather Vane",
+  "categoryId": "sky_weather",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Weather Vane",
+  "level": "little",
+  "regionCount": 7,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

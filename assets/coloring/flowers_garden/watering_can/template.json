@@ -1,0 +1,22 @@
+{
+  "id": "watering_can",
+  "title": "Watering Can",
+  "categoryId": "flowers_garden",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Watering Can",
+  "level": "explorer",
+  "regionCount": 9,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

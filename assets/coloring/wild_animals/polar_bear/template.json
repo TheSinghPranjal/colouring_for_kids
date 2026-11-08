@@ -1,0 +1,22 @@
+{
+  "id": "polar_bear",
+  "title": "Polar Bear",
+  "categoryId": "wild_animals",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Polar Bear",
+  "level": "explorer",
+  "regionCount": 11,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "stingray",
+  "title": "Stingray",
+  "categoryId": "underwater_world",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Stingray",
+  "level": "little",
+  "regionCount": 4,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

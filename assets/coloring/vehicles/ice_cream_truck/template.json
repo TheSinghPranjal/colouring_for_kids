@@ -1,0 +1,22 @@
+{
+  "id": "ice_cream_truck",
+  "title": "Ice Cream Truck",
+  "categoryId": "vehicles",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Ice Cream Truck",
+  "level": "explorer",
+  "regionCount": 11,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "sun_cloud",
+  "title": "Sun and Cloud",
+  "categoryId": "sky_weather",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Sun and Cloud",
+  "level": "explorer",
+  "regionCount": 11,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}

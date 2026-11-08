@@ -1,0 +1,22 @@
+{
+  "id": "jack_in_the_box",
+  "title": "Jack in the Box",
+  "categoryId": "toys_imagination",
+  "viewBox": [
+    0,
+    0,
+    1000,
+    1000
+  ],
+  "outline": "outline.svg",
+  "regions": "regions.json",
+  "thumbnail": "thumbnail.png",
+  "audioLabel": "Jack in the Box",
+  "level": "explorer",
+  "regionCount": 10,
+  "features": [
+    "fill",
+    "draw",
+    "stickers"
+  ]
+}
