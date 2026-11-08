@@ -78,105 +78,305 @@ flutter:
   assets:
     - assets/images/
     - assets/sounds/
+    - assets/coloring/birds_insects/ant/
     - assets/coloring/birds_insects/bee/
+    - assets/coloring/birds_insects/beetle/
     - assets/coloring/birds_insects/bird/
     - assets/coloring/birds_insects/butterfly/
+    - assets/coloring/birds_insects/caterpillar/
+    - assets/coloring/birds_insects/crow/
     - assets/coloring/birds_insects/dragonfly/
     - assets/coloring/birds_insects/duck/
+    - assets/coloring/birds_insects/eagle/
+    - assets/coloring/birds_insects/firefly/
+    - assets/coloring/birds_insects/flamingo/
+    - assets/coloring/birds_insects/grasshopper/
+    - assets/coloring/birds_insects/hummingbird/
     - assets/coloring/birds_insects/ladybug/
+    - assets/coloring/birds_insects/moth/
+    - assets/coloring/birds_insects/ostrich/
     - assets/coloring/birds_insects/owl/
     - assets/coloring/birds_insects/parrot/
+    - assets/coloring/birds_insects/peacock/
     - assets/coloring/birds_insects/penguin/
+    - assets/coloring/birds_insects/pigeon/
+    - assets/coloring/birds_insects/puffin/
     - assets/coloring/birds_insects/snail/
+    - assets/coloring/birds_insects/spider/
+    - assets/coloring/birds_insects/stork/
+    - assets/coloring/birds_insects/swan/
+    - assets/coloring/birds_insects/toucan/
+    - assets/coloring/birds_insects/woodpecker/
+    - assets/coloring/birds_insects/worm/
+    - assets/coloring/buildings_places/apartment/
+    - assets/coloring/buildings_places/bakery/
     - assets/coloring/buildings_places/barn/
     - assets/coloring/buildings_places/bridge/
+    - assets/coloring/buildings_places/cafe/
+    - assets/coloring/buildings_places/carousel/
     - assets/coloring/buildings_places/castle/
+    - assets/coloring/buildings_places/clock_tower/
+    - assets/coloring/buildings_places/cottage/
+    - assets/coloring/buildings_places/ferris_wheel/
+    - assets/coloring/buildings_places/fire_station/
+    - assets/coloring/buildings_places/fountain/
+    - assets/coloring/buildings_places/gazebo/
+    - assets/coloring/buildings_places/hospital/
     - assets/coloring/buildings_places/house/
+    - assets/coloring/buildings_places/hut/
     - assets/coloring/buildings_places/igloo/
+    - assets/coloring/buildings_places/library/
     - assets/coloring/buildings_places/lighthouse/
+    - assets/coloring/buildings_places/log_cabin/
+    - assets/coloring/buildings_places/playground_slide/
+    - assets/coloring/buildings_places/pyramid/
     - assets/coloring/buildings_places/school/
     - assets/coloring/buildings_places/shop/
+    - assets/coloring/buildings_places/skyscraper/
+    - assets/coloring/buildings_places/swing_set/
     - assets/coloring/buildings_places/tent/
+    - assets/coloring/buildings_places/treehouse/
     - assets/coloring/buildings_places/windmill/
+    - assets/coloring/buildings_places/wishing_well/
+    - assets/coloring/flowers_garden/acorn/
+    - assets/coloring/flowers_garden/beehive/
+    - assets/coloring/flowers_garden/birdhouse/
+    - assets/coloring/flowers_garden/bluebell/
+    - assets/coloring/flowers_garden/bouquet/
     - assets/coloring/flowers_garden/cactus/
+    - assets/coloring/flowers_garden/cherry_blossom/
+    - assets/coloring/flowers_garden/clover/
     - assets/coloring/flowers_garden/daisy/
+    - assets/coloring/flowers_garden/dandelion/
     - assets/coloring/flowers_garden/flower/
     - assets/coloring/flowers_garden/flower_pot/
+    - assets/coloring/flowers_garden/garden_bench/
+    - assets/coloring/flowers_garden/garden_gnome/
+    - assets/coloring/flowers_garden/lavender/
     - assets/coloring/flowers_garden/leaf/
+    - assets/coloring/flowers_garden/lily_pad/
+    - assets/coloring/flowers_garden/lotus/
     - assets/coloring/flowers_garden/mushroom/
+    - assets/coloring/flowers_garden/palm_tree/
+    - assets/coloring/flowers_garden/pine_tree/
+    - assets/coloring/flowers_garden/poppy/
     - assets/coloring/flowers_garden/rose/
+    - assets/coloring/flowers_garden/seedling/
+    - assets/coloring/flowers_garden/shovel/
     - assets/coloring/flowers_garden/sunflower/
     - assets/coloring/flowers_garden/tree/
     - assets/coloring/flowers_garden/tulip/
+    - assets/coloring/flowers_garden/watering_can/
+    - assets/coloring/flowers_garden/wheelbarrow/
     - assets/coloring/fruits_vegetables/apple/
+    - assets/coloring/fruits_vegetables/avocado/
     - assets/coloring/fruits_vegetables/banana/
+    - assets/coloring/fruits_vegetables/bell_pepper/
+    - assets/coloring/fruits_vegetables/blueberries/
     - assets/coloring/fruits_vegetables/broccoli/
     - assets/coloring/fruits_vegetables/carrot/
+    - assets/coloring/fruits_vegetables/cherry/
+    - assets/coloring/fruits_vegetables/coconut/
     - assets/coloring/fruits_vegetables/corn/
+    - assets/coloring/fruits_vegetables/cucumber/
+    - assets/coloring/fruits_vegetables/eggplant/
     - assets/coloring/fruits_vegetables/grapes/
+    - assets/coloring/fruits_vegetables/kiwi/
+    - assets/coloring/fruits_vegetables/lemon/
+    - assets/coloring/fruits_vegetables/lettuce/
+    - assets/coloring/fruits_vegetables/mango/
+    - assets/coloring/fruits_vegetables/onion/
+    - assets/coloring/fruits_vegetables/orange/
+    - assets/coloring/fruits_vegetables/peach/
     - assets/coloring/fruits_vegetables/pear/
+    - assets/coloring/fruits_vegetables/peas/
+    - assets/coloring/fruits_vegetables/pineapple/
+    - assets/coloring/fruits_vegetables/plum/
+    - assets/coloring/fruits_vegetables/potato/
+    - assets/coloring/fruits_vegetables/pumpkin/
+    - assets/coloring/fruits_vegetables/radish/
     - assets/coloring/fruits_vegetables/strawberry/
     - assets/coloring/fruits_vegetables/tomato/
     - assets/coloring/fruits_vegetables/watermelon/
+    - assets/coloring/pets_farm/calf/
     - assets/coloring/pets_farm/cat/
+    - assets/coloring/pets_farm/chick/
     - assets/coloring/pets_farm/chicken/
     - assets/coloring/pets_farm/cow/
     - assets/coloring/pets_farm/dog/
+    - assets/coloring/pets_farm/dog_house/
+    - assets/coloring/pets_farm/donkey/
+    - assets/coloring/pets_farm/fish_bowl/
     - assets/coloring/pets_farm/goat/
+    - assets/coloring/pets_farm/goose/
+    - assets/coloring/pets_farm/guinea_pig/
+    - assets/coloring/pets_farm/hamster/
+    - assets/coloring/pets_farm/hay_bale/
+    - assets/coloring/pets_farm/hen_house/
     - assets/coloring/pets_farm/horse/
+    - assets/coloring/pets_farm/kitten/
+    - assets/coloring/pets_farm/lamb/
+    - assets/coloring/pets_farm/llama/
     - assets/coloring/pets_farm/mouse/
     - assets/coloring/pets_farm/pig/
+    - assets/coloring/pets_farm/piglet/
+    - assets/coloring/pets_farm/pony/
+    - assets/coloring/pets_farm/puppy/
     - assets/coloring/pets_farm/rabbit/
+    - assets/coloring/pets_farm/rooster/
+    - assets/coloring/pets_farm/scarecrow/
     - assets/coloring/pets_farm/sheep/
+    - assets/coloring/pets_farm/tractor/
+    - assets/coloring/pets_farm/turkey/
     - assets/coloring/sky_weather/cloud/
+    - assets/coloring/sky_weather/comet/
+    - assets/coloring/sky_weather/earth/
     - assets/coloring/sky_weather/hot_air_balloon/
     - assets/coloring/sky_weather/lightning/
+    - assets/coloring/sky_weather/mittens/
     - assets/coloring/sky_weather/moon/
+    - assets/coloring/sky_weather/mountain/
+    - assets/coloring/sky_weather/parachute/
+    - assets/coloring/sky_weather/planet/
+    - assets/coloring/sky_weather/rain_boots/
     - assets/coloring/sky_weather/rainbow/
     - assets/coloring/sky_weather/raincloud/
+    - assets/coloring/sky_weather/raincoat/
+    - assets/coloring/sky_weather/raindrop/
+    - assets/coloring/sky_weather/satellite/
+    - assets/coloring/sky_weather/snow_cloud/
+    - assets/coloring/sky_weather/snowflake/
     - assets/coloring/sky_weather/snowman/
     - assets/coloring/sky_weather/star_sky/
     - assets/coloring/sky_weather/sun/
+    - assets/coloring/sky_weather/sun_cloud/
+    - assets/coloring/sky_weather/sunglasses/
+    - assets/coloring/sky_weather/sunset/
+    - assets/coloring/sky_weather/thermometer/
+    - assets/coloring/sky_weather/tornado/
     - assets/coloring/sky_weather/umbrella/
+    - assets/coloring/sky_weather/volcano/
+    - assets/coloring/sky_weather/weather_vane/
+    - assets/coloring/sky_weather/windsock/
+    - assets/coloring/toys_imagination/alien/
+    - assets/coloring/toys_imagination/astronaut/
     - assets/coloring/toys_imagination/ball/
+    - assets/coloring/toys_imagination/balloons/
     - assets/coloring/toys_imagination/blocks/
+    - assets/coloring/toys_imagination/crown/
+    - assets/coloring/toys_imagination/dinosaur/
     - assets/coloring/toys_imagination/doll/
+    - assets/coloring/toys_imagination/dragon/
     - assets/coloring/toys_imagination/drum/
+    - assets/coloring/toys_imagination/jack_in_the_box/
     - assets/coloring/toys_imagination/kite/
+    - assets/coloring/toys_imagination/magic_wand/
+    - assets/coloring/toys_imagination/paper_plane/
+    - assets/coloring/toys_imagination/pirate_ship/
     - assets/coloring/toys_imagination/puzzle/
+    - assets/coloring/toys_imagination/rocking_horse/
+    - assets/coloring/toys_imagination/rubber_duck/
+    - assets/coloring/toys_imagination/sandcastle/
+    - assets/coloring/toys_imagination/spinning_top/
     - assets/coloring/toys_imagination/teddy_bear/
+    - assets/coloring/toys_imagination/toy_piano/
     - assets/coloring/toys_imagination/toy_robot/
     - assets/coloring/toys_imagination/toy_rocket/
+    - assets/coloring/toys_imagination/toy_train/
+    - assets/coloring/toys_imagination/ufo/
+    - assets/coloring/toys_imagination/unicorn/
+    - assets/coloring/toys_imagination/wizard_hat/
+    - assets/coloring/toys_imagination/xylophone/
     - assets/coloring/toys_imagination/yo_yo/
+    - assets/coloring/underwater_world/anchor/
+    - assets/coloring/underwater_world/angelfish/
     - assets/coloring/underwater_world/clam/
+    - assets/coloring/underwater_world/clownfish/
+    - assets/coloring/underwater_world/conch/
+    - assets/coloring/underwater_world/coral/
     - assets/coloring/underwater_world/crab/
     - assets/coloring/underwater_world/dolphin/
+    - assets/coloring/underwater_world/eel/
     - assets/coloring/underwater_world/fish/
     - assets/coloring/underwater_world/jellyfish/
+    - assets/coloring/underwater_world/lobster/
+    - assets/coloring/underwater_world/narwhal/
     - assets/coloring/underwater_world/octopus/
+    - assets/coloring/underwater_world/pufferfish/
+    - assets/coloring/underwater_world/sea_otter/
+    - assets/coloring/underwater_world/sea_turtle/
+    - assets/coloring/underwater_world/sea_urchin/
     - assets/coloring/underwater_world/seahorse/
+    - assets/coloring/underwater_world/seal/
+    - assets/coloring/underwater_world/seaweed/
     - assets/coloring/underwater_world/shark/
+    - assets/coloring/underwater_world/shrimp/
+    - assets/coloring/underwater_world/squid/
     - assets/coloring/underwater_world/starfish/
+    - assets/coloring/underwater_world/stingray/
+    - assets/coloring/underwater_world/swordfish/
+    - assets/coloring/underwater_world/treasure_chest/
+    - assets/coloring/underwater_world/walrus/
     - assets/coloring/underwater_world/whale/
     - assets/coloring/vehicles/airplane/
+    - assets/coloring/vehicles/ambulance/
     - assets/coloring/vehicles/bicycle/
+    - assets/coloring/vehicles/blimp/
     - assets/coloring/vehicles/boat/
     - assets/coloring/vehicles/bus/
+    - assets/coloring/vehicles/cable_car/
+    - assets/coloring/vehicles/canoe/
     - assets/coloring/vehicles/car/
+    - assets/coloring/vehicles/cement_mixer/
+    - assets/coloring/vehicles/digger/
+    - assets/coloring/vehicles/fire_truck/
+    - assets/coloring/vehicles/garbage_truck/
     - assets/coloring/vehicles/helicopter/
+    - assets/coloring/vehicles/ice_cream_truck/
+    - assets/coloring/vehicles/jeep/
     - assets/coloring/vehicles/motorcycle/
+    - assets/coloring/vehicles/police_car/
+    - assets/coloring/vehicles/race_car/
+    - assets/coloring/vehicles/sailboat/
+    - assets/coloring/vehicles/scooter/
+    - assets/coloring/vehicles/ship/
+    - assets/coloring/vehicles/skateboard/
     - assets/coloring/vehicles/submarine/
+    - assets/coloring/vehicles/taxi/
+    - assets/coloring/vehicles/tow_truck/
     - assets/coloring/vehicles/train/
+    - assets/coloring/vehicles/tram/
     - assets/coloring/vehicles/truck/
+    - assets/coloring/vehicles/van/
+    - assets/coloring/wild_animals/bear/
+    - assets/coloring/wild_animals/beaver/
+    - assets/coloring/wild_animals/camel/
+    - assets/coloring/wild_animals/cheetah/
+    - assets/coloring/wild_animals/crocodile/
+    - assets/coloring/wild_animals/deer/
     - assets/coloring/wild_animals/elephant/
     - assets/coloring/wild_animals/fox/
+    - assets/coloring/wild_animals/frog/
     - assets/coloring/wild_animals/giraffe/
+    - assets/coloring/wild_animals/gorilla/
+    - assets/coloring/wild_animals/hedgehog/
     - assets/coloring/wild_animals/hippo/
+    - assets/coloring/wild_animals/kangaroo/
     - assets/coloring/wild_animals/koala/
     - assets/coloring/wild_animals/lion/
     - assets/coloring/wild_animals/monkey/
+    - assets/coloring/wild_animals/moose/
     - assets/coloring/wild_animals/panda/
+    - assets/coloring/wild_animals/polar_bear/
+    - assets/coloring/wild_animals/raccoon/
+    - assets/coloring/wild_animals/rhino/
+    - assets/coloring/wild_animals/skunk/
+    - assets/coloring/wild_animals/sloth/
+    - assets/coloring/wild_animals/snake/
+    - assets/coloring/wild_animals/squirrel/
+    - assets/coloring/wild_animals/tiger/
     - assets/coloring/wild_animals/turtle/
+    - assets/coloring/wild_animals/wolf/
     - assets/coloring/wild_animals/zebra/
 
   fonts:

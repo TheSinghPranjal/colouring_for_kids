@@ -12,8 +12,8 @@
   "regions": "regions.json",
   "thumbnail": "thumbnail.png",
   "audioLabel": "Dragonfly",
-  "level": "little",
-  "regionCount": 7,
+  "level": "explorer",
+  "regionCount": 9,
   "features": [
     "fill",
     "draw",

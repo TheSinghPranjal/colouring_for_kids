@@ -162,14 +162,18 @@ def starfish():
 
 def dolphin():
     t = Template("dolphin", "Dolphin", CAT)
-    t.region("body", ellipse(480, 520, 260, 120, -15), "skyblue")
-    t.region("belly", ellipse(480, 560, 180, 60, -15), "white")
-    t.region("head", ellipse(720, 480, 110, 80, -10), "skyblue")
-    t.region("fin", poly([(480, 420), (520, 300), (560, 420)], 14), "blue")
-    t.region("tail", poly([(220, 520), (120, 440), (140, 560), (120, 620)], 16), "blue")
-    t.region("flipper", ellipse(500, 600, 70, 35, 30), "blue")
-    t.eyes(740, 460, 40, 12)
-    t.smile(780, 500, 35, 12)
+    tail = union(lens((185, 560), 215, 150, 66), lens((185, 560), 145, 150, 66))
+    t.region("tail", tail, "blue")
+    t.region("fin", poly([(450, 420), (515, 265), (590, 400)], 22), "blue")
+    body = blob([(170, 560), (260, 480), (420, 405), (600, 385), (740, 412), (815, 455), (900, 478), (905, 508),
+                 (820, 522), (740, 562), (600, 602), (420, 605), (260, 592)])
+    t.region("body", body, "skyblue")
+    t.region("belly", ellipse(590, 590, 250, 48, -6).intersection(body.buffer(-10)), "white")
+    t.region("flipper", lens((560, 575), 125, 150, 62), "blue")
+    t.region("bubble_1", circle(860, 330, 36), "white", label="Bubble 1")
+    t.region("bubble_2", circle(920, 240, 28), "white", label="Bubble 2")
+    t.eye(760, 455, 17)
+    t.line([(812, 505), (850, 512), (890, 498)], 9)
     return t
 
 
@@ -186,27 +190,43 @@ def jellyfish():
 
 def shark():
     t = Template("shark", "Shark", CAT)
-    t.region("body", ellipse(480, 520, 280, 110), "grey")
-    t.region("belly", ellipse(480, 560, 200, 50), "white")
-    t.region("fin", poly([(480, 420), (520, 280), (560, 420)], 14), "grey")
-    t.region("tail", poly([(200, 520), (80, 420), (100, 520), (80, 620)], 14), "grey")
-    t.region("side_fin", ellipse(500, 600, 80, 35, 25), "grey")
-    t.region("nose", ellipse(760, 520, 70, 50), "grey")
-    t.eyes(700, 490, 40, 12)
-    t.smile(760, 545, 40, 12)
+    tail = union(poly([(225, 500), (105, 300), (215, 335), (305, 470)], 22),
+                 poly([(225, 545), (125, 715), (220, 685), (305, 570)], 22))
+    t.region("tail", tail, "grey")
+    t.region("fin", poly([(440, 420), (520, 235), (610, 410)], 22), "grey")
+    body = blob([(200, 520), (320, 445), (520, 400), (720, 420), (850, 468), (920, 522), (850, 572), (720, 612),
+                 (520, 632), (320, 600)])
+    t.region("body", body, "grey")
+    t.region("belly", ellipse(620, 585, 280, 62).intersection(body.buffer(-10)), "white")
+    t.region("side_fin", poly([(520, 600), (450, 735), (640, 615)], 24), "grey")
+    t.region("bubble", circle(905, 330, 36), "skyblue")
+    t.eye(790, 478, 17)
+    t.line([(760, 548), (815, 568), (875, 545)], 10)
+    for x in (680, 712, 744):
+        t.line([(x, 470), (x - 10, 530)], 9)
     return t
 
 
 def clam():
+    from lib import arc_pts, halfplane_below
     t = Template("clam", "Clam", CAT)
-    t.region("bottom", ellipse(500, 620, 280, 160), "peach")
-    t.region("top", ellipse(500, 480, 280, 160), "pink")
-    t.region("hinge", ellipse(500, 550, 80, 40), "purple")
-    t.region("pearl", circle(500, 580, 55), "white")
-    t.region("left_ridge", band([(300, 520), (280, 620), (320, 700)], 24), "pink")
-    t.region("right_ridge", band([(700, 520), (720, 620), (680, 700)], 24), "pink")
-    t.eyes(500, 450, 70, 14)
-    t.smile(500, 500, 45, 14)
+    fan = poly([(500, 620)] + arc_pts(500, 620, 320, 180, 360), 0)
+    scallops = [circle(500 + 315 * math.cos(math.radians(a)), 620 + 315 * math.sin(math.radians(a)), 42)
+                for a in range(190, 360, 20)]
+    t.region("top_shell", union(fan, *scallops).difference(halfplane_below(640)), "pink")
+    t.region("inside", ellipse(500, 565, 255, 72), "peach")
+    t.region("pearl", circle(500, 520, 72), "white")
+    bowl = ellipse(500, 600, 315, 185).intersection(halfplane_below(600))
+    t.region("bottom_shell", bowl, "pink")
+    t.region("left_cheek", circle(355, 708, 32), "pink")
+    t.region("right_cheek", circle(645, 708, 32), "pink")
+    t.eyes(500, 668, 150, 21)
+    t.smile(500, 705, 60, 22)
+    for a in (215, 250, 290, 325):
+        r = math.radians(a)
+        t.line([(500 + 235 * math.cos(r), 620 + 235 * math.sin(r)), (500 + 300 * math.cos(r), 620 + 300 * math.sin(r))],
+               9, smooth=False)
+    t.dot(478, 498, 14, "#FFFFFF")
     return t
 
 

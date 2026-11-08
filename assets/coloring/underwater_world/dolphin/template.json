@@ -13,7 +13,7 @@
   "thumbnail": "thumbnail.png",
   "audioLabel": "Dolphin",
   "level": "little",
-  "regionCount": 6,
+  "regionCount": 7,
   "features": [
     "fill",
     "draw",

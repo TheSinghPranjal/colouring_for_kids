@@ -1,3 +1,5 @@
+import math
+
 from lib import Template, band, circle, ellipse, lens, mirror, petal, poly, rect, union
 
 CAT = "birds_insects"
@@ -130,17 +132,30 @@ def bee():
 
 
 def ladybug():
+    from shapely.geometry import box
     t = Template("ladybug", "Ladybug", CAT)
-    t.region("body", ellipse(500, 560, 220, 200), "red")
-    t.region("head", ellipse(500, 340, 110, 90), "black")
-    t.region("spot_1", circle(400, 500, 40), "black")
-    t.region("spot_2", circle(600, 500, 40), "black")
-    t.region("spot_3", circle(450, 620, 35), "black")
-    t.region("spot_4", circle(550, 620, 35), "black")
-    t.region("left_leg", band([(340, 560), (260, 640)], 22), "black")
-    t.region("right_leg", band([(660, 560), (740, 640)], 22), "black")
-    t.eyes(500, 330, 70, 14)
-    t.smile(500, 370, 40, 14)
+    for side in (-1, 1):
+        for i, (dy, ang) in enumerate([(-80, -25), (40, 0), (160, 25)]):
+            x0 = 500 + side * 250
+            y0 = 580 + dy
+            x1 = x0 + side * 110 * math.cos(math.radians(ang))
+            y1 = y0 + 110 * math.sin(math.radians(ang))
+            t.line([(x0, y0), (x1, y1), (x1 + side * 20, y1 + 30)], 14)
+    t.line([(450, 240), (420, 160), (380, 130)], 12)
+    t.line([(550, 240), (580, 160), (620, 130)], 12)
+    t.region("left_antenna_tip", circle(372, 125, 32), "black", label="Left antenna")
+    t.region("right_antenna_tip", circle(628, 125, 32), "black", label="Right antenna")
+    t.region("head", ellipse(500, 330, 160, 120), "black")
+    shell = circle(500, 600, 290)
+    t.region("left_wing", shell.intersection(box(0, 0, 500, 1000)), "red")
+    t.region("right_wing", shell.intersection(box(500, 0, 1000, 1000)), "red")
+    spots = [(390, 480, 52), (330, 630, 44), (420, 760, 48)]
+    for i, (x, y, r) in enumerate(spots):
+        t.region(f"spot_{i + 1}", circle(x, y, r), "black", label=f"Spot {i + 1}")
+        t.region(f"spot_{i + 4}", circle(1000 - x, y, r), "black", label=f"Spot {i + 4}")
+    for x in (450, 550):
+        t.dot(x, 268, 30, "#FFFFFF")
+        t.dot(x + 4, 272, 15)
     return t
 
 
@@ -189,15 +204,24 @@ def penguin():
 
 def dragonfly():
     t = Template("dragonfly", "Dragonfly", CAT)
-    t.region("body", band([(300, 500), (700, 500)], 50), "teal")
-    t.region("head", circle(260, 500, 55), "teal")
-    t.region("tail", band([(700, 500), (880, 500)], 28), "blue")
-    t.region("wing_tl", ellipse(420, 360, 140, 60, -20), "skyblue")
-    t.region("wing_tr", ellipse(580, 360, 140, 60, 20), "skyblue")
-    t.region("wing_bl", ellipse(420, 640, 140, 60, 20), "skyblue")
-    t.region("wing_br", ellipse(580, 640, 140, 60, -20), "skyblue")
-    t.eyes(250, 490, 40, 12)
-    t.smile(240, 520, 25, 10)
+    t.region("left_top_wing", petal((485, 345), 200, 380, 130), "skyblue", label="Left top wing")
+    t.region("right_top_wing", petal((515, 345), -20, 380, 130), "skyblue", label="Right top wing")
+    t.region("left_bottom_wing", petal((485, 400), 155, 330, 115), "skyblue", label="Left bottom wing")
+    t.region("right_bottom_wing", petal((515, 400), 25, 330, 115), "skyblue", label="Right bottom wing")
+    t.region("tail", band([(500, 420), (500, 905)], 62), "teal")
+    t.region("body", ellipse(500, 375, 72, 95), "blue")
+    t.region("head", circle(500, 240, 82), "teal")
+    t.region("left_eye", circle(440, 205, 46), "green", label="Left eye")
+    t.region("right_eye", circle(560, 205, 46), "green", label="Right eye")
+    t.dot(448, 208, 18)
+    t.dot(552, 208, 18)
+    t.smile(500, 268, 56, 20)
+    for y in (540, 620, 700, 780, 850):
+        t.line([(472, y), (528, y)], 9, smooth=False)
+    for ang, base, length in [(200, (485, 345), 380), (-20, (515, 345), 380), (155, (485, 400), 330), (25, (515, 400), 330)]:
+        a = math.radians(ang)
+        t.line([(base[0] + 70 * math.cos(a), base[1] + 70 * math.sin(a)),
+                (base[0] + length * 0.85 * math.cos(a), base[1] + length * 0.85 * math.sin(a))], 8, smooth=False)
     return t
 
 

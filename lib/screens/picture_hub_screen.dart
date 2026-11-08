@@ -10,12 +10,18 @@ import '../theme/app_text_styles.dart';
 import '../widgets/artwork_view.dart';
 import '../widgets/gallery_cards.dart';
 import '../widgets/kid_buttons.dart';
-import '../widgets/playful_backdrop.dart';
+import '../widgets/mascot.dart';
+import '../widgets/meadow_backdrop.dart';
+import '../widgets/pick_header.dart';
 import 'routes.dart';
 
-/// Pick-a-picture hub: outdoor studio backdrop, Continue strip, category grid.
+/// Pick-a-picture hub: a sunny garden, a big Continue Coloring button with
+/// the latest picture and Sprout holding a crayon, then every category.
 class PictureHubScreen extends StatelessWidget {
   const PictureHubScreen({super.key});
+
+  static const _headerHeight = 88.0;
+  static const _continueHeight = 84.0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +35,26 @@ class PictureHubScreen extends StatelessWidget {
               .where((a) => ColoringCatalog.template(a.templateId) != null)
               .take(8)
               .toList();
-          final width = MediaQuery.sizeOf(context).width;
+          final media = MediaQuery.of(context);
+          final width = media.size.width;
           final columns = width > 1000 ? 5 : (width > 700 ? 4 : 2);
-          return PlayfulBackdrop(
+          final featuredWidth = math.min(width * 0.46, 250.0);
+          final featuredHeight = featuredWidth / 0.86;
+          // Put the meadow's horizon just behind the featured card's feet.
+          final horizonPx = inProgress.isEmpty
+              ? media.padding.top + _headerHeight + 60
+              : media.padding.top + _headerHeight + _continueHeight + featuredHeight * 0.72;
+          void open(ColoringArtwork a) => AppRoutes.studioPage(context, a.templateId, artworkId: a.id);
+
+          return MeadowBackdrop(
             animate: animate,
+            horizon: (horizonPx / media.size.height).clamp(0.2, 0.6),
             child: SafeArea(
               bottom: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _HubHeader(
+                  PickHeader(
                     onBack: () => Navigator.maybePop(context),
                     onArtwork: () => AppRoutes.myArtworkPage(context),
                   ),
@@ -46,49 +62,68 @@ class PictureHubScreen extends StatelessWidget {
                     child: CustomScrollView(
                       slivers: [
                         if (inProgress.isNotEmpty) ...[
-                          const SliverToBoxAdapter(
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(20, 4, 20, 14),
-                              child: Center(child: _ContinueChip()),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: _continueHeight,
+                              child: Center(child: _ContinueButton(onTap: () => open(inProgress.first))),
                             ),
                           ),
                           SliverToBoxAdapter(
-                            child: SizedBox(
-                              height: 168,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                itemCount: inProgress.length,
-                                separatorBuilder: (_, _) => const SizedBox(width: 14),
-                                itemBuilder: (context, i) => _ContinueCard(
-                                  artwork: inProgress[i],
-                                  featured: i == 0,
-                                  animate: animate,
-                                  onTap: () => AppRoutes.studioPage(
-                                    context,
-                                    inProgress[i].templateId,
-                                    artworkId: inProgress[i].id,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Center(
+                                child: SizedBox(
+                                  width: math.min(width - 40, 560),
+                                  height: featuredHeight,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      SizedBox(
+                                        width: featuredWidth,
+                                        child: _FeaturedCard(
+                                          artwork: inProgress.first,
+                                          onTap: () => open(inProgress.first),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Align(
+                                          alignment: const Alignment(0.1, 0.7),
+                                          child: _CrayonMascot(size: featuredHeight * 0.8, animate: animate),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const SliverToBoxAdapter(child: SizedBox(height: 18)),
+                          if (inProgress.length > 1)
+                            SliverToBoxAdapter(
+                              child: SizedBox(
+                                height: 128,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
+                                  itemCount: inProgress.length - 1,
+                                  separatorBuilder: (_, _) => const SizedBox(width: 12),
+                                  itemBuilder: (context, i) =>
+                                      _MiniCard(artwork: inProgress[i + 1], onTap: () => open(inProgress[i + 1])),
+                                ),
+                              ),
+                            ),
+                          const SliverToBoxAdapter(child: SizedBox(height: 22)),
                         ] else
-                          const SliverToBoxAdapter(child: SizedBox(height: 8)),
+                          const SliverToBoxAdapter(child: SizedBox(height: 10)),
                         SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 36),
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
                           sliver: SliverGrid.count(
                             crossAxisCount: columns,
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16,
-                            childAspectRatio: 0.86,
+                            mainAxisSpacing: 18,
+                            crossAxisSpacing: 18,
+                            childAspectRatio: 0.88,
                             children: [
                               for (final c in ColoringCatalog.categories)
-                                CategoryCard(
-                                  category: c,
-                                  onTap: () => AppRoutes.sketchesPage(context, c.id),
-                                ),
+                                CategoryCard(category: c, onTap: () => AppRoutes.sketchesPage(context, c.id)),
                             ],
                           ),
                         ),
@@ -105,111 +140,75 @@ class PictureHubScreen extends StatelessWidget {
   }
 }
 
-class _HubHeader extends StatelessWidget {
-  const _HubHeader({required this.onBack, required this.onArtwork});
+/// Raspberry pill that jumps back into the most recent picture.
+class _ContinueButton extends StatelessWidget {
+  const _ContinueButton({required this.onTap});
 
-  final VoidCallback onBack;
-  final VoidCallback onArtwork;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 8, 14, 6),
-      child: SizedBox(
-        height: 56,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Text(
-              'Pick a Picture',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.title.copyWith(
-                fontSize: 28,
-                color: AppColors.ink,
-                shadows: const [
-                  Shadow(color: Colors.white, offset: Offset(0, 2), blurRadius: 0),
-                  Shadow(color: Colors.white, offset: Offset(0, -1), blurRadius: 0),
-                  Shadow(color: Colors.white, offset: Offset(1.5, 0), blurRadius: 0),
-                  Shadow(color: Colors.white, offset: Offset(-1.5, 0), blurRadius: 0),
-                ],
-              ),
-              semanticsLabel: 'Pick a Picture',
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: RoundIconButton(
-                icon: Icons.arrow_back_rounded,
-                tooltip: 'Back',
-                onTap: onBack,
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: RoundIconButton(
-                icon: Icons.photo_library_rounded,
-                tooltip: 'My Artwork',
-                onTap: onArtwork,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// White pill with a coral play mark — matches the mock section label.
-class _ContinueChip extends StatelessWidget {
-  const _ContinueChip();
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
-      header: true,
+      button: true,
       label: 'Continue Coloring',
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(999),
-          boxShadow: const [
-            BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: Offset(0, 4)),
-          ],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 28,
-              height: 28,
-              decoration: const BoxDecoration(color: AppColors.coralDeep, shape: BoxShape.circle),
-              child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
+      excludeSemantics: true,
+      child: Squishy(
+        onTap: onTap,
+        child: Container(
+          height: 64,
+          padding: const EdgeInsets.fromLTRB(8, 0, 28, 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: Colors.white, width: 4),
+            gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [AppColors.berryLight, AppColors.berry],
             ),
-            const SizedBox(width: 10),
-            Text(
-              'Continue Coloring',
-              style: AppTextStyles.heading.copyWith(fontSize: 20, color: AppColors.ink),
-            ),
-          ],
+            boxShadow: [
+              BoxShadow(color: AppColors.berry.withValues(alpha: 0.4), blurRadius: 14, offset: const Offset(0, 6)),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFFC2105F),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.9), width: 2.5),
+                ),
+                child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 30),
+              ),
+              const SizedBox(width: 12),
+              Flexible(
+                child: Text(
+                  'Continue Coloring',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.title.copyWith(
+                    fontSize: 24,
+                    color: Colors.white,
+                    shadows: const [Shadow(color: Color(0x55800040), offset: Offset(0, 2), blurRadius: 2)],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _ContinueCard extends StatelessWidget {
-  const _ContinueCard({
-    required this.artwork,
-    required this.onTap,
-    required this.featured,
-    required this.animate,
-  });
+/// The latest picture in a golden frame with a star ribbon.
+class _FeaturedCard extends StatelessWidget {
+  const _FeaturedCard({required this.artwork, required this.onTap});
 
   final ColoringArtwork artwork;
   final VoidCallback onTap;
-  final bool featured;
-  final bool animate;
 
   @override
   Widget build(BuildContext context) {
@@ -223,40 +222,55 @@ class _ContinueCard extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            Container(
-              width: 148,
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(26),
-                border: Border.all(color: Colors.white, width: 4),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.shadow,
-                    blurRadius: featured ? 16 : 10,
-                    offset: Offset(0, featured ? 7 : 4),
+            Positioned.fill(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [AppColors.goldLight, AppColors.gold, Color(0xFFFFD54F)],
                   ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Expanded(child: ArtworkView(templateId: artwork.templateId, artwork: artwork)),
-                  const SizedBox(height: 4),
-                  Text(
-                    info.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.label.copyWith(fontSize: 16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.gold.withValues(alpha: 0.45),
+                      blurRadius: 16,
+                      offset: const Offset(0, 7),
+                    ),
+                  ],
+                ),
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
+                  decoration: BoxDecoration(color: const Color(0xFFFFFBF0), borderRadius: BorderRadius.circular(25)),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFD83D),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: ArtworkView(templateId: artwork.templateId, artwork: artwork),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          info.title,
+                          maxLines: 1,
+                          style: AppTextStyles.title.copyWith(fontSize: 22, color: AppColors.grape),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-            if (featured)
-              Positioned(
-                right: -2,
-                top: -6,
-                child: IgnorePointer(child: _Sparkles(animate: animate)),
-              ),
+            const Positioned(top: -10, right: -10, child: _StarBadge()),
           ],
         ),
       ),
@@ -264,76 +278,169 @@ class _ContinueCard extends StatelessWidget {
   }
 }
 
-class _Sparkles extends StatefulWidget {
-  const _Sparkles({required this.animate});
-
-  final bool animate;
-
-  @override
-  State<_Sparkles> createState() => _SparklesState();
-}
-
-class _SparklesState extends State<_Sparkles> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 1200),
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.animate) _c.repeat(reverse: true);
-  }
-
-  @override
-  void didUpdateWidget(_Sparkles old) {
-    super.didUpdateWidget(old);
-    if (widget.animate && !_c.isAnimating) _c.repeat(reverse: true);
-    if (!widget.animate) _c.value = 0.6;
-  }
-
-  @override
-  void dispose() {
-    _c.dispose();
-    super.dispose();
-  }
+class _StarBadge extends StatelessWidget {
+  const _StarBadge();
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _c,
-      builder: (_, _) => CustomPaint(
-        size: const Size(34, 34),
-        painter: _SparklePainter(widget.animate ? _c.value : 0.7),
+    return Transform.rotate(
+      angle: 0.12,
+      child: Container(
+        width: 46,
+        height: 46,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white, width: 3),
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFFFB74D), Color(0xFFFF8F00)],
+          ),
+          boxShadow: const [BoxShadow(color: AppColors.shadow, blurRadius: 6, offset: Offset(0, 3))],
+        ),
+        child: const Icon(Icons.star_rounded, color: Colors.white, size: 30),
       ),
     );
   }
 }
 
-class _SparklePainter extends CustomPainter {
-  _SparklePainter(this.t);
+/// A smaller card for the other pictures in progress.
+class _MiniCard extends StatelessWidget {
+  const _MiniCard({required this.artwork, required this.onTap});
 
-  final double t;
+  final ColoringArtwork artwork;
+  final VoidCallback onTap;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFFFFC94D).withValues(alpha: 0.55 + 0.45 * t)
-      ..strokeWidth = 2.4
-      ..strokeCap = StrokeCap.round;
-    final origin = Offset(size.width * 0.35, size.height * 0.55);
-    final len = 7.0 + 3.0 * t;
-    for (final angle in const [-0.55, -1.15, -1.75]) {
-      final d = Offset(math.cos(angle), math.sin(angle));
-      canvas.drawLine(origin + d * 4, origin + d * len, paint);
-    }
-    canvas.drawCircle(
-      Offset(size.width * 0.72, size.height * 0.22),
-      2.2 + t,
-      Paint()..color = const Color(0xFFFFC94D),
+  Widget build(BuildContext context) {
+    final info = ColoringCatalog.template(artwork.templateId)!;
+    return Semantics(
+      button: true,
+      label: 'Continue ${info.title}',
+      excludeSemantics: true,
+      child: Squishy(
+        onTap: onTap,
+        child: Container(
+          width: 96,
+          padding: const EdgeInsets.fromLTRB(6, 6, 6, 4),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: [
+              BoxShadow(color: AppColors.grape.withValues(alpha: 0.16), blurRadius: 10, offset: const Offset(0, 4)),
+            ],
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: ArtworkView(templateId: artwork.templateId, artwork: artwork),
+              ),
+              Text(
+                info.title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.label.copyWith(fontSize: 13, color: AppColors.grape),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
+  }
+}
+
+/// Sprout peeking up from the meadow with a big purple crayon.
+class _CrayonMascot extends StatelessWidget {
+  const _CrayonMascot({required this.size, required this.animate});
+
+  final double size;
+  final bool animate;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExcludeSemantics(
+      child: SizedBox(
+        width: size * 1.05,
+        height: size,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: Mascot(size: size, animate: animate),
+            ),
+            // Held against Sprout's left side, tip up and outwards.
+            Positioned(
+              left: size * 0.12,
+              bottom: size * 0.04,
+              child: Transform.rotate(
+                angle: -0.4,
+                child: CustomPaint(size: Size(size * 0.17, size * 0.55), painter: _CrayonPainter()),
+              ),
+            ),
+            Positioned(
+              left: -size * 0.04,
+              top: size * 0.2,
+              child: CustomPaint(size: Size.square(size * 0.26), painter: _BurstPainter()),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CrayonPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width, h = size.height;
+    const body = Color(0xFF9C3FE0), dark = Color(0xFF6E22B0), light = Color(0xFFC07CF5);
+    final outline = Paint()
+      ..color = const Color(0xFF2B2440)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = w * 0.07
+      ..strokeJoin = StrokeJoin.round;
+    final tipH = h * 0.2;
+    final tip = Path()
+      ..moveTo(w * 0.12, tipH)
+      ..lineTo(w * 0.42, h * 0.02)
+      ..quadraticBezierTo(w * 0.5, 0, w * 0.58, h * 0.02)
+      ..lineTo(w * 0.88, tipH)
+      ..close();
+    canvas.drawPath(tip, Paint()..color = dark);
+    canvas.drawPath(tip, outline);
+    final rect = RRect.fromRectAndCorners(
+      Rect.fromLTWH(0, tipH, w, h - tipH),
+      bottomLeft: Radius.circular(w * 0.2),
+      bottomRight: Radius.circular(w * 0.2),
+    );
+    canvas.drawRRect(rect, Paint()..color = body);
+    canvas.drawRect(Rect.fromLTWH(w * 0.12, tipH + 2, w * 0.18, h - tipH - 6), Paint()..color = light);
+    for (final y in [tipH + h * 0.08, h - h * 0.14]) {
+      canvas.drawRect(Rect.fromLTWH(0, y, w, h * 0.05), Paint()..color = dark);
+    }
+    canvas.drawRRect(rect, outline);
   }
 
   @override
-  bool shouldRepaint(covariant _SparklePainter oldDelegate) => oldDelegate.t != t;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _BurstPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = const Color(0xFFFFC21A)
+      ..strokeWidth = size.width * 0.12
+      ..strokeCap = StrokeCap.round;
+    final o = Offset(size.width * 0.85, size.height * 0.95);
+    for (final a in const [-2.0, -1.5, -2.6]) {
+      final d = Offset(math.cos(a), math.sin(a));
+      canvas.drawLine(o + d * size.width * 0.45, o + d * size.width * 0.85, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

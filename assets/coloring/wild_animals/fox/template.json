@@ -12,8 +12,8 @@
   "regions": "regions.json",
   "thumbnail": "thumbnail.png",
   "audioLabel": "Fox",
-  "level": "little",
-  "regionCount": 8,
+  "level": "explorer",
+  "regionCount": 12,
   "features": [
     "fill",
     "draw",

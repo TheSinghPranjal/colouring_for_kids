@@ -13,7 +13,7 @@
   "thumbnail": "thumbnail.png",
   "audioLabel": "Zebra",
   "level": "explorer",
-  "regionCount": 9,
+  "regionCount": 16,
   "features": [
     "fill",
     "draw",

@@ -60,7 +60,7 @@ void main() {
     await shot('1_home');
     await tester.tap(find.bySemanticsLabel('Play'));
     await shot('2_categories');
-    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 10 pictures').first);
+    await tester.tap(find.bySemanticsLabel('Flowers & Garden, 30 pictures').first);
     await shot('3_sketches');
     await tester.tap(find.bySemanticsLabel('Flower'));
     await tester.pumpAndSettle();

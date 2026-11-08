@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../data/coloring_catalog.dart';
 import '../services/app_scope.dart';
-import '../theme/app_colors.dart';
-import '../theme/app_text_styles.dart';
 import '../widgets/gallery_cards.dart';
-import '../widgets/kid_buttons.dart';
-import '../widgets/playful_backdrop.dart';
+import '../widgets/meadow_backdrop.dart';
+import '../widgets/pick_header.dart';
 import 'routes.dart';
 
 /// Standalone category grid (e.g. from My Artwork → Start Coloring).
@@ -22,61 +20,23 @@ class CategoryGalleryScreen extends StatelessWidget {
     return Scaffold(
       body: ListenableBuilder(
         listenable: services.settings,
-        builder: (context, _) => PlayfulBackdrop(
+        builder: (context, _) => MeadowBackdrop(
           animate: !services.settings.reducedMotion,
+          horizon: 0.3,
           child: SafeArea(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 8, 14, 6),
-                  child: SizedBox(
-                    height: 56,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Text(
-                          'Pick a Picture',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyles.title.copyWith(
-                            fontSize: 28,
-                            color: AppColors.ink,
-                            shadows: const [
-                              Shadow(color: Colors.white, offset: Offset(0, 2), blurRadius: 0),
-                              Shadow(color: Colors.white, offset: Offset(0, -1), blurRadius: 0),
-                              Shadow(color: Colors.white, offset: Offset(1.5, 0), blurRadius: 0),
-                              Shadow(color: Colors.white, offset: Offset(-1.5, 0), blurRadius: 0),
-                            ],
-                          ),
-                          semanticsLabel: 'Pick a Picture',
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: RoundIconButton(
-                            icon: Icons.arrow_back_rounded,
-                            tooltip: 'Back',
-                            onTap: () => Navigator.maybePop(context),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: RoundIconButton(
-                            icon: Icons.photo_library_rounded,
-                            tooltip: 'My Artwork',
-                            onTap: () => AppRoutes.myArtworkPage(context),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                PickHeader(
+                  onBack: () => Navigator.maybePop(context),
+                  onArtwork: () => AppRoutes.myArtworkPage(context),
                 ),
                 Expanded(
                   child: GridView.count(
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
                     crossAxisCount: columns,
-                    mainAxisSpacing: 16,
-                    crossAxisSpacing: 16,
-                    childAspectRatio: 0.86,
+                    mainAxisSpacing: 18,
+                    crossAxisSpacing: 18,
+                    childAspectRatio: 0.88,
                     children: [
                       for (final c in ColoringCatalog.categories)
                         CategoryCard(category: c, onTap: () => AppRoutes.sketchesPage(context, c.id)),

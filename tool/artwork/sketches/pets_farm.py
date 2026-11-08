@@ -139,29 +139,42 @@ def chicken():
 
 def horse():
     t = Template("horse", "Horse", CAT)
-    t.region("tail", band([(300, 520), (180, 560), (160, 680), (220, 720)], 48), "brown")
-    t.region("body", ellipse(480, 620, 210, 150), "brown")
-    t.region("neck", band([(560, 520), (640, 380), (700, 320)], 90), "brown")
-    t.region("head", ellipse(740, 280, 110, 80), "brown")
-    t.region("mane", band([(620, 360), (580, 300), (640, 240), (720, 220)], 40), "black")
-    t.region("front_leg", rect(560, 720, 70, 180, 30), "brown")
-    t.region("back_leg", rect(360, 720, 70, 180, 30), "brown")
-    t.eyes(760, 260, 40, 12)
-    t.smile(780, 300, 30, 12)
+    t.region("tail", band([(215, 500), (140, 560), (125, 680), (165, 770)], 64), "black")
+    legs = [(232, 640), (330, 650), (520, 650), (606, 640)]
+    for i, (x, y) in enumerate(legs):
+        t.region(f"leg_{i + 1}", rect(x, y, 66, 240, 30), "brown", label=f"Leg {i + 1}")
+        t.region(f"hoof_{i + 1}", rect(x - 4, 838, 74, 52, 16), "grey", label=f"Hoof {i + 1}")
+    t.region("body", rect(195, 440, 485, 240, 115), "brown")
+    mane = union(*[circle(662 - 92 * k / 5, 228 + 290 * k / 5, 44) for k in range(6)])
+    t.region("mane", mane, "black")
+    t.region("neck", poly([(565, 530), (660, 245), (775, 270), (700, 565)], 40), "brown")
+    t.region("ear", poly([(700, 252), (692, 150), (772, 228)], 14), "brown")
+    t.region("head", ellipse(800, 322, 128, 74, 40), "brown")
+    t.region("muzzle", ellipse(872, 388, 66, 56, 40), "peach", label="Nose")
+    t.region("blaze", ellipse(770, 290, 22, 52, 40), "white", label="Face stripe")
+    t.eye(752, 318, 17)
+    t.dot(893, 392, 9)
+    t.line([(842, 432), (868, 444), (892, 432)], 9)
     return t
 
 
 def sheep():
     t = Template("sheep", "Sheep", CAT)
-    wool = union(circle(380, 520, 120), circle(500, 460, 150), circle(620, 520, 120), circle(500, 600, 140))
-    t.region("wool", wool, "white")
-    t.region("head", ellipse(500, 700, 110, 90), "peach")
-    t.region("left_ear", ellipse(390, 690, 35, 55, -20), "peach")
-    t.region("right_ear", ellipse(610, 690, 35, 55, 20), "peach")
-    t.region("left_leg", rect(400, 780, 55, 130, 22), "black")
-    t.region("right_leg", rect(545, 780, 55, 130, 22), "black")
-    t.eyes(500, 690, 70, 14)
-    t.smile(500, 730, 45, 16)
+    legs = [(300, 620), (390, 640), (540, 640), (625, 620)]
+    for i, (x, y) in enumerate(legs):
+        t.region(f"leg_{i + 1}", rect(x, y, 62, 250, 28), "black", label=f"Leg {i + 1}")
+    puffs = [
+        circle(460 + 255 * math.cos(math.radians(a)), 520 + 160 * math.sin(math.radians(a)), 72)
+        for a in range(0, 360, 30)
+    ]
+    t.region("wool", union(ellipse(460, 520, 255, 160), *puffs), "white")
+    t.region("left_ear", ellipse(650, 455, 66, 28, -25), "peach")
+    t.region("right_ear", ellipse(860, 455, 66, 28, 25), "peach")
+    t.region("head", ellipse(755, 500, 92, 116), "peach", label="Face")
+    t.region("tuft", union(circle(715, 392, 46), circle(770, 378, 52), circle(745, 345, 44), circle(805, 405, 36)), "white")
+    t.eyes(755, 490, 64, 15)
+    t.dot(755, 552, 12)
+    t.smile(755, 570, 46, 16)
     return t
 
 
@@ -182,16 +195,23 @@ def rabbit():
 
 def goat():
     t = Template("goat", "Goat", CAT)
-    t.region("body", ellipse(480, 620, 200, 140), "grey")
-    t.region("head", ellipse(700, 420, 100, 85), "grey")
-    t.region("neck", band([(580, 540), (660, 460)], 80), "grey")
-    t.region("left_horn", band([(660, 360), (640, 260), (620, 220)], 28), "peach")
-    t.region("right_horn", band([(720, 360), (740, 260), (760, 220)], 28), "peach")
-    t.region("front_leg", rect(560, 720, 60, 170, 26), "grey")
-    t.region("back_leg", rect(360, 720, 60, 170, 26), "grey")
-    t.region("beard", poly([(670, 470), (700, 600), (730, 470)], 16), "white")
-    t.eyes(710, 400, 45, 12)
-    t.smile(730, 440, 28, 12)
+    t.region("tail", lens((232, 492), -125, 100, 52), "white")
+    legs = [(250, 630), (330, 640), (515, 640), (590, 630)]
+    for i, (x, y) in enumerate(legs):
+        t.region(f"leg_{i + 1}", rect(x, y, 58, 235, 26), "white", label=f"Leg {i + 1}")
+    t.region("body", rect(215, 450, 450, 220, 100), "white")
+    t.region("spot", ellipse(400, 540, 90, 60, -10).intersection(rect(215, 450, 450, 220, 100).buffer(-22)), "brown")
+    t.region("horns", band([(705, 268), (668, 190), (610, 160), (566, 186)], 36), "peach")
+    t.region("neck", poly([(555, 520), (630, 325), (730, 340), (668, 560)], 36), "white")
+    t.region("beard", poly([(758, 392), (824, 388), (792, 548)], 14), "white")
+    t.region("ear", ellipse(650, 330, 62, 26, 25), "white")
+    t.region("head", ellipse(748, 332, 108, 72, 32), "white")
+    t.region("muzzle", ellipse(822, 380, 56, 46, 32), "pink", label="Nose")
+    t.eye(735, 315, 16)
+    t.dot(845, 382, 8)
+    t.line([(800, 414), (820, 424), (842, 414)], 9)
+    for x, y in legs:
+        t.line([(x + 6, y + 205), (x + 52, y + 205)], 9, smooth=False)
     return t
 
 

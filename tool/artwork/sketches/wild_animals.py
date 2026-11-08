@@ -162,17 +162,31 @@ def giraffe():
 
 def zebra():
     t = Template("zebra", "Zebra", CAT)
-    t.region("body", ellipse(480, 600, 200, 140), "white")
-    t.region("stripe_1", rect(380, 540, 50, 120, 10).intersection(ellipse(480, 600, 200, 140)), "black")
-    t.region("stripe_2", rect(480, 540, 50, 120, 10).intersection(ellipse(480, 600, 200, 140)), "black")
-    t.region("stripe_3", rect(560, 540, 50, 120, 10).intersection(ellipse(480, 600, 200, 140)), "black")
-    t.region("neck", band([(600, 520), (680, 380)], 90), "white")
-    t.region("head", ellipse(740, 320, 100, 80), "white")
-    t.region("mane", band([(640, 400), (620, 300), (700, 260)], 36), "black")
-    t.region("front_leg", rect(560, 700, 60, 180, 26), "white")
-    t.region("back_leg", rect(360, 700, 60, 180, 26), "white")
-    t.eyes(760, 300, 40, 12)
-    t.smile(780, 340, 28, 12)
+    t.region("tail", union(band([(215, 500), (160, 560), (150, 660)], 30), ellipse(150, 700, 34, 52)), "black")
+    legs = [(232, 640), (330, 650), (520, 650), (606, 640)]
+    for i, (x, y) in enumerate(legs):
+        t.region(f"leg_{i + 1}", rect(x, y, 66, 245, 30), "white", label=f"Leg {i + 1}")
+    body = rect(195, 440, 485, 240, 115)
+    t.region("body", body, "white")
+    for i, x in enumerate((330, 450, 570)):
+        stripe = band([(x - 25, 430), (x + 15, 560), (x - 15, 700)], 42).intersection(body)
+        t.region(f"stripe_{i + 1}", stripe, "black", label=f"Stripe {i + 1}")
+    mane = union(*[circle(662 - 92 * k / 5, 228 + 290 * k / 5, 40) for k in range(6)])
+    t.region("mane", mane, "black")
+    neck = poly([(565, 530), (660, 245), (775, 270), (700, 565)], 40)
+    t.region("neck", neck, "white")
+    for i, y in enumerate((380, 480)):
+        t.region(f"neck_stripe_{i + 1}", band([(540, y - 30), (800, y + 20)], 40).intersection(neck), "black",
+                 label=f"Neck stripe {i + 1}")
+    t.region("ear", poly([(700, 252), (692, 150), (772, 228)], 14), "white")
+    t.region("head", ellipse(800, 322, 128, 74, 40), "white")
+    t.region("muzzle", ellipse(872, 388, 66, 56, 40), "black", label="Nose")
+    t.eye(752, 318, 17)
+    t.dot(893, 392, 9, "#FFFFFF")
+    for x, y in legs:
+        for dy in (90, 150):
+            t.line([(x + 4, y + dy), (x + 62, y + dy - 10)], 10, smooth=False)
+        t.line([(x + 4, y + 215), (x + 62, y + 215)], 9, smooth=False)
     return t
 
 
@@ -194,16 +208,27 @@ def panda():
 
 def fox():
     t = Template("fox", "Fox", CAT)
-    t.region("tail", band([(280, 640), (160, 600), (140, 500), (220, 460)], 70), "orange")
-    t.region("tail_tip", circle(150, 480, 40), "white")
-    t.region("body", ellipse(480, 640, 170, 140), "orange")
-    t.region("head", ellipse(650, 420, 130, 110), "orange")
-    t.region("left_ear", poly([(560, 360), (540, 240), (620, 330)], 12), "orange")
-    t.region("right_ear", poly([(700, 340), (760, 230), (740, 360)], 12), "orange")
-    t.region("muzzle", ellipse(700, 470, 60, 45), "white")
-    t.region("chest", ellipse(500, 680, 70, 80), "white")
-    t.eyes(640, 400, 55, 14)
-    t.smile(700, 490, 30, 12)
+    t.region("tail", band([(600, 860), (770, 850), (870, 740), (860, 610)], 130), "orange")
+    t.region("tail_tip", ellipse(855, 585, 72, 82), "white", label="Tail tip")
+    t.region("body", ellipse(500, 715, 170, 195), "orange")
+    t.region("chest", ellipse(500, 690, 82, 130), "white")
+    t.region("left_leg", rect(392, 770, 92, 150, 44), "orange")
+    t.region("right_leg", rect(516, 770, 92, 150, 44), "orange")
+    ear = poly([(318, 380), (330, 155), (468, 300)], 18)
+    t.region("left_ear", ear, "orange")
+    t.region("right_ear", mirror(ear), "orange")
+    inner = poly([(352, 330), (352, 222), (425, 300)], 12)
+    t.region("left_inner_ear", inner, "black", label="Left inner ear")
+    t.region("right_inner_ear", mirror(inner), "black", label="Right inner ear")
+    head = blob([(320, 320), (500, 285), (680, 320), (720, 420), (610, 510), (500, 560), (390, 510), (280, 420)])
+    t.region("head", head, "orange")
+    face = blob([(330, 430), (430, 440), (500, 470), (570, 440), (670, 430), (600, 510), (500, 552), (400, 510)])
+    t.region("face", face.intersection(head.buffer(-6)), "white")
+    t.eyes(500, 390, 120, 21)
+    t.shape_detail(ellipse(500, 488, 28, 20))
+    t.line([(470, 520), (500, 535), (530, 520)], 9)
+    for x in (418, 450, 550, 582):
+        t.line([(x, 898), (x, 918)], 8, smooth=False)
     return t
 
 

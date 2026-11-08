@@ -79,8 +79,11 @@ def main():
     cats = args or CATEGORIES
     for cat in cats:
         module = importlib.import_module(f"sketches.{cat}")
+        # The first ten sketches live in sketches/<cat>.py, the next twenty
+        # in sketches/<cat>_more.py.
+        more = importlib.import_module(f"sketches.{cat}_more")
         built = []
-        for factory in module.TEMPLATES:
+        for factory in module.TEMPLATES + more.TEMPLATES:
             t = factory()
             assert t.category == cat, f"{t.id} has category {t.category}"
             visible, outline_lines = t.write(ROOT)
@@ -90,7 +93,7 @@ def main():
                 f"{smallest[0]}={smallest[1].area:.0f}"
             )
             built.append((t, visible, outline_lines))
-        assert len(built) == 10, f"{cat} must have exactly ten sketches"
+        assert len(built) == 30, f"{cat} must have exactly thirty sketches"
         if preview_dir:
             os.makedirs(preview_dir, exist_ok=True)
             preview(built, os.path.join(preview_dir, f"{cat}.png"))

@@ -12,8 +12,8 @@
   "regions": "regions.json",
   "thumbnail": "thumbnail.png",
   "audioLabel": "Ladybug",
-  "level": "little",
-  "regionCount": 8,
+  "level": "explorer",
+  "regionCount": 11,
   "features": [
     "fill",
     "draw",

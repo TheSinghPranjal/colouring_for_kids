@@ -12,8 +12,8 @@
   "regions": "regions.json",
   "thumbnail": "thumbnail.png",
   "audioLabel": "Sheep",
-  "level": "little",
-  "regionCount": 6,
+  "level": "explorer",
+  "regionCount": 9,
   "features": [
     "fill",
     "draw",
